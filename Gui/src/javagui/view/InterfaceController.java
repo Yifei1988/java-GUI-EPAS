@@ -2,10 +2,12 @@ package javagui.view;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +30,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
 import org.sqlite.SQLiteConfig;
 
 import com.mathworks.toolbox.javabuilder.MWArray;
@@ -150,7 +154,7 @@ public class InterfaceController {
 	
 	public static String folederPath = null;//folederPath can be used everywhere in this class
 	
-	public static int faceSeNum = 0;//默认设定面序号为0
+	public static int faceSeNum = 0;//默认表面序号为0
 	
 	public static String fehlerart1 = null;//create static variables to pass values from Classify to FehlerAnalyse
 	public static String fehlerart2 = null;
@@ -169,12 +173,9 @@ public class InterfaceController {
 	public static ObservableList<String> massZuFehler3Dialog = null;
 	public static ObservableList<String> massZuFehler4Dialog = null;
 	public static ObservableList<String> massZuFehler5Dialog = null;
-	
-	public static String massVorschlagFace1 = null;//用于DialogMassnahme和保存text文档
-	public static String massVorschlagFace2 = null;
-	public static String massVorschlagFace3 = null;
-	public static String massVorschlagFace4 = null;
-	public static String massVorschlagFace5 = null;
+
+	public static String massVorschlagForTxt[];//用于DialogMassnahme和保存。txt文档
+
 	
 	public static String Folder_URL = "C:\\Users\\Administrator\\Desktop\\Beispiel";
 	public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
@@ -263,26 +264,31 @@ public class InterfaceController {
 	public void switchFaceAction1(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f1.txt");
+		checkFaceChanged(1);
 		faceSeNum = 1;
 	}
 	public void switchFaceAction2(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f2.txt");
+		checkFaceChanged(2);
 		faceSeNum = 2;
 	}
 	public void switchFaceAction3(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f3.txt");
+		checkFaceChanged(3);
 		faceSeNum = 3;
 	}
 	public void switchFaceAction4(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f4.txt");
+		checkFaceChanged(4);
 		faceSeNum = 4;
 	}
 	public void switchFaceAction5(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f5.txt");
+		checkFaceChanged(5);
 		faceSeNum = 5;
 	}
 	
@@ -294,6 +300,18 @@ public class InterfaceController {
 		readinKraefte(filePath_krf_part);
 		String filePath_mm_part = filePath_part;
 		readinMomente(filePath_mm_part);
+	}
+	public void checkFaceChanged(int seNum){
+		if(faceSeNum !=0 && faceSeNum !=seNum){
+			fehler_ReportInitial();
+			ursache_ReportInitial();
+			mass_ReportInitial();
+			
+			btnJa.setDisable(true);
+			btnNein.setDisable(true);
+			btnJaUnten.setDisable(true);
+			btnNeinUnten.setDisable(true);
+		}
 	}
 	
 	private void readinMotorLeistung(String filePath_lst_part) {
@@ -357,8 +375,6 @@ public class InterfaceController {
 	}
 	
 	public void stringForReportInitial(){
-		faceSeNum = 0;
-		
 		fehlerart1 = null;
 		fehlerart2 = null;
 		fehlerart3 = null;
@@ -418,6 +434,11 @@ public class InterfaceController {
 		
 		btnJaUnten.setDisable(true);
 		btnNeinUnten.setDisable(true);
+		massVorschlagForTxt = null;//让massnahmeVorschlag打印内容初始化
+		
+		if(fehlerart1 == null){
+			btnJa.setDisable(true);
+		}
 	}
 	
 	@FXML//work with SQLite-Datenbanke!!!!!!!!!!!!!!!!!!!!
@@ -618,8 +639,49 @@ public class InterfaceController {
 		dm.showAndWait();
 	}
 	@FXML
-	public void saveToText(ActionEvent event){//btnJaUnten的功能
-		System.out.println(massZuFehler1);
+	public void saveToText(ActionEvent event) throws IOException{//btnJaUnten的功能
+	/*	for(int i=0; i<massVorschlagForTxt.length; i++){
+			System.out.println(massVorschlagForTxt[i]);
+		}*/
+
+		if(massVorschlagForTxt != null){
+			SimpleDateFormat tf = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
+			String timeNow = tf.format(new Date());
+			String fileNameToSave = "\\[MassnahmeAuswahl_Face" + faceSeNum + "]" + timeNow + ".txt";
+			String filePathToSave = folederPath + fileNameToSave;
+
+			creatTxtFile(filePathToSave);
+			writeTxtFile(filePathToSave);
+			
+			massVorschlagForTxt = null;
+		}
+	}
+	
+	public void creatTxtFile(String filepath) throws IOException{
+		File file = new File(filepath);
+		if(!file.exists()){
+			file.createNewFile();
+		}
+	}
+	public void writeTxtFile(String filepath){
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(filepath);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(int i=0; i<massVorschlagForTxt.length; i++){
+			try {
+				fos.write(massVorschlagForTxt[i].getBytes());
+				System.out.println(massVorschlagForTxt[i]);
+				fos.write("\r\n".getBytes());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@FXML
