@@ -4,14 +4,22 @@ import java.io.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
+
+import com.mathworks.toolbox.javabuilder.*;//connection from matlab to java
+import Klss2.BKlss2;//bring Klassifikation-Function of Matlab into java
+import java.io.PrintStream;
+import javagui.controller.CustomOutputStream;
 
 public class InterfaceController {
 	@FXML
 	private Button btnFolderOpen;
+	
+	@FXML
+	private Button btnKlssifi;
 	
 	@FXML
 	private Label txtFolderPath;
@@ -68,6 +76,9 @@ public class InterfaceController {
 	private Label zuFl5;
 	
 	@FXML
+	private TextField fehler1;
+	
+	@FXML
 	public void openFolderAction(ActionEvent event){
 		DirectoryChooser folderOpen = new DirectoryChooser();
 		//set initial Folder:
@@ -121,5 +132,20 @@ public class InterfaceController {
         
 		
 	}//end Method of OpenFolderButton
+	
+	@FXML
+	public void klassifikationAction(ActionEvent event) throws MWException{
+		 BKlss2 f = new BKlss2();
+	     Object fr[] = null;
+	     MWNumericArray a = null;
+	     int m = 3;
+	     a = new MWNumericArray(Double.valueOf(m), MWClassID.DOUBLE);
+	     fr = f.Klss2(1,a);//1 means one value will return, a is Input
+	     System.out.println(fr[0]);//0 means the first value
+	     
+	     fehler1.setEditable(false);
+	     PrintStream printStream = new PrintStream(new CustomOutputStream(fehler1));
+	     System.setOut(printStream);
+	}
 
 }
