@@ -1,0 +1,4 @@
+.toggle-button:selected{
+    -fx-background-color: #04B4AE;
+    -fx-text-fill: White;
+}

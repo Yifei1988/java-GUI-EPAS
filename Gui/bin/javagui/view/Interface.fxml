@@ -11,6 +11,8 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -282,31 +284,34 @@
                                                 </Label>
                                                 <HBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Button fx:id="btnFace1" mnemonicParsing="false" onAction="#switchFaceAction1" prefHeight="35.0" prefWidth="25.0" text="1">
+                                                      <ToggleButton fx:id="btnFace1" disable="true" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#switchFaceAction1" stylesheets="@../../../bin/javagui/view/facebutton.css" text="1">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
-                                                      </Button>
-                                                      <Button fx:id="btnFace2" mnemonicParsing="false" onAction="#switchFaceAction2" prefHeight="35.0" prefWidth="25.0" text="2">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="tg" />
+                                                         </toggleGroup>
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="btnFace2" disable="true" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#switchFaceAction2" stylesheets="@../../../bin/javagui/view/facebutton.css" text="2" toggleGroup="$tg">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
-                                                      </Button>
-                                                      <Button fx:id="btnFace3" mnemonicParsing="false" onAction="#switchFaceAction3" prefHeight="35.0" prefWidth="25.0" text="3">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="btnFace3" disable="true" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#switchFaceAction3" stylesheets="@../../../bin/javagui/view/facebutton.css" text="3" toggleGroup="$tg">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
-                                                      </Button>
-                                                      <Button fx:id="btnFace4" mnemonicParsing="false" onAction="#switchFaceAction4" prefHeight="35.0" prefWidth="25.0" text="4">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="btnFace4" disable="true" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#switchFaceAction4" stylesheets="@../../../bin/javagui/view/facebutton.css" text="4" toggleGroup="$tg">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
-                                                      </Button>
-                                                      <Button fx:id="btnFace5" mnemonicParsing="false" onAction="#switchFaceAction5" prefHeight="35.0" prefWidth="25.0" text="5">
+                                                      </ToggleButton>
+                                                      <ToggleButton fx:id="btnFace5" disable="true" minHeight="35.0" minWidth="35.0" mnemonicParsing="false" onAction="#switchFaceAction5" stylesheets="@../../../bin/javagui/view/facebutton.css" text="5" toggleGroup="$tg">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
-                                                      </Button>
+                                                      </ToggleButton>
                                                    </children>
                                                 </HBox>
                                              </children>

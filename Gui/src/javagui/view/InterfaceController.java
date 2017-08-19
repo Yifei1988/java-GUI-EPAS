@@ -8,13 +8,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
 
 import com.mathworks.toolbox.javabuilder.*;//connection from matlab to java
 import Klss2.BKlss2;//bring Klassifikation-Function of Matlab into java
 import javagui.MainApp;
-import javagui.controller.CustomOutputStream;
 
 public class InterfaceController {
 	@FXML
@@ -24,19 +25,22 @@ public class InterfaceController {
 	private Button btnKlssifi;
 	
 	@FXML
-	private Button btnFace1;
+	final ToggleGroup tg = new ToggleGroup();
 	
 	@FXML
-	private Button btnFace2;
+	private ToggleButton btnFace1;
 	
 	@FXML
-	private Button btnFace3;
+	private ToggleButton btnFace2;
 	
 	@FXML
-	private Button btnFace4;
+	private ToggleButton btnFace3;
 	
 	@FXML
-	private Button btnFace5;
+	private ToggleButton btnFace4;
+	
+	@FXML
+	private ToggleButton btnFace5;
 	
 	@FXML
 	private Button btnNein;
@@ -114,6 +118,7 @@ public class InterfaceController {
 		lineChartTp.getData().clear();
 		lineChartFq.getData().clear();
 		lineChartPw.getData().clear();//before open a new Folder clear the linechart
+		
 		DirectoryChooser folderOpen = new DirectoryChooser();
 		//set initial Folder:
 		folderOpen.setInitialDirectory(new File("C:\\Users\\Administrator\\Desktop\\Beispiel"));
@@ -161,6 +166,13 @@ public class InterfaceController {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		readinTemp();//read the value of Temp. in program 
+		
+		btnFace1.setDisable(false);
+		btnFace2.setDisable(false);
+		btnFace3.setDisable(false);
+		btnFace4.setDisable(false);
+		btnFace5.setDisable(false);
+		
 	}//end Method of OpenFolderButton
 	
 	public void switchFaceAction1(ActionEvent event){
@@ -209,17 +221,21 @@ public class InterfaceController {
 		fehler1.setEditable(false);
 		fehler1.clear();
 		
-		PrintStream printStream = new PrintStream(new CustomOutputStream(fehler1));
-		System.setOut(printStream);
+		double m =3;
+		MWNumericArray input_a = new MWNumericArray(m);;
+		MWCharArray output_e = null;
 		
-		BKlss2 f = new BKlss2();
-		Object fr[] = null;
-		MWNumericArray a = null;
-		int m = 3;
-		a = new MWNumericArray(Double.valueOf(m), MWClassID.DOUBLE);
-		fr = f.Klss2(1,a);//1 means one value will return, a is Input
-		System.out.println(fr[0]);//0 means the first value		
-	}
+		try{
+			BKlss2 fehler_from_matlab = new BKlss2();
+			Object[] result = fehler_from_matlab.Klss2(1,input_a);
+			output_e = new MWCharArray(result[0]);
+			System.out.println(output_e);
+			fehler1.setText(String.valueOf(output_e));
+		}finally{
+			MWArray.disposeArray(input_a);
+			MWArray.disposeArray(output_e);
+		}
+	}//end of Classify
 	
 	private void readinTemp() {
 		String filePath_temp_part = "\\temp.txt"; 
@@ -232,6 +248,7 @@ public class InterfaceController {
 			
 			lineChartTp.setTitle("Temperatur");
 			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			lineChartTp.setAnimated(false);
 			
 			int i=1;
 			while ((line = br.readLine()) != null) {
@@ -257,6 +274,7 @@ public class InterfaceController {
 			
 			lineChartFq.setTitle("Frequenz");
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+			lineChartFq.setAnimated(false);
 			
 			int i=1;
 			while ((line = br.readLine()) != null) {
@@ -284,6 +302,7 @@ public class InterfaceController {
 			
 			lineChartPw.setTitle("Spannung");
 			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			lineChartPw.setAnimated(false);
 			
 			int i=1;
 			while ((line = br.readLine()) != null) {
