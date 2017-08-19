@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Gui.jnlp">
+  <information>
+    <title>Gui</title>
+    <vendor>javagui</vendor>
+    <description>Epas</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="Gui.jar" size="7365" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="javagui.MainApp"  name="Epas" />
+  <update check="background"/>
+</jnlp>

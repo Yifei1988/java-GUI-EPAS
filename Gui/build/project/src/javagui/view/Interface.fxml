@@ -238,12 +238,12 @@
                                  <children>
                                     <HBox prefHeight="42.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
+                                          <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="42.0" prefWidth="68.0" style="-fx-border-radius: 8 8 8 8; -fx-border-color: blue; -fx-border-width: 3; -fx-background-radius: 8 8 8 8; -fx-background-color: white;" textOverrun="CLIP">
                                              <font>
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
                                              <graphic>
-                                                <ImageView fitHeight="38.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="25.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../../../resources/images/button_open.png" />
                                                    </image>
@@ -583,12 +583,12 @@
                                                 <Font size="24.0" />
                                              </font>
                                           </Button>
-                                          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
+                                          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="52.0" style="-fx-border-radius: 8 8 8 8; -fx-border-color: blue; -fx-border-width: 3; -fx-background-radius: 8 8 8 8; -fx-background-color: white;" textOverrun="CLIP">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                              <graphic>
-                                                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                                <ImageView fitHeight="42.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../../../resources/images/button_save.png" />
                                                    </image>

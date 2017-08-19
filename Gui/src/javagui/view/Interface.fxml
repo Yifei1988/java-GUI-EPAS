@@ -13,6 +13,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -236,10 +238,17 @@
                                  <children>
                                     <HBox prefHeight="42.0" spacing="4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="42.0" prefWidth="68.0" style="-fx-border-radius: 8 8 8 8; -fx-border-color: blue; -fx-border-width: 2; -fx-background-radius: 8 8 8 8;" text="Open" textOverrun="CLIP">
+                                          <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
                                              <font>
                                                 <Font name="System Bold" size="16.0" />
                                              </font>
+                                             <graphic>
+                                                <ImageView fitHeight="38.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../resources/images/button_open.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
                                           </Button>
                                           <TextField fx:id="txtFolderPath" prefHeight="42.0" promptText="Please select a Folder!" HBox.hgrow="ALWAYS">
                                              <tooltip>
@@ -574,10 +583,17 @@
                                                 <Font size="24.0" />
                                              </font>
                                           </Button>
-                                          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="68.0" style="-fx-border-radius: 8 8 8 8; -fx-border-color: red; -fx-border-width: 2; -fx-background-radius: 8 8 8 8;" text="Save" textOverrun="CLIP">
+                                          <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
+                                             <graphic>
+                                                <ImageView fitHeight="38.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../../../resources/images/button_save.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
                                           </Button>
                                        </children>
                                     </HBox>
