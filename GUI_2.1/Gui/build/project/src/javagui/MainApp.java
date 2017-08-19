@@ -8,19 +8,21 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javagui.view.DialogFehlerController;
 
 public class MainApp extends Application {
 
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private BorderPane rootLayout;
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Epas");
+        MainApp.primaryStage = primaryStage;
+        MainApp.primaryStage.setTitle("Epas");
         // Set the application icon:
-        this.primaryStage.getIcons().add(new Image("file:resources/images/icon_epas_robot.png"));
+        MainApp.primaryStage.getIcons().add(new Image("file:resources/images/icon_epas_robot.png"));
 
         initRootLayout();
 
@@ -47,7 +49,7 @@ public class MainApp extends Application {
     }
 
     /**
-     * Shows the person overview inside the root layout.
+     * Shows the main Interface inside the root layout.
      */
     public void showInterface() {
         try {
@@ -61,6 +63,31 @@ public class MainApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void showDialogFeler() {
+        try {
+            // Load the fxml file and create a new stage for the dialog-fehler.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/DialogFehler.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Fehler erneuern");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+            dialogStage.setResizable(false);
+
+            // Set the fehlerart into the controller.
+            DialogFehlerController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+        } catch (IOException e){e.printStackTrace();}
     }
 
     /**

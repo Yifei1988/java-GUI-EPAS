@@ -8,7 +8,10 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Gui.jar" size="7365" download="eager" />
+    <jar href="Gui.jar" size="24130" download="eager" />
+    <jar href="libs\Klss2.jar" size="23076" download="eager" />
+    <jar href="libs\javabuilder.jar" size="458498" download="eager" />
+    <jar href="libs\sqlite-jdbc-3.15.1.jar" size="4369865" download="eager" />
   </resources>
   <jfx:javafx-desc  width="0" height="0" main-class="javagui.MainApp"  name="Epas" />
   <update check="background"/>

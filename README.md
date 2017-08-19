@@ -15,11 +15,14 @@ sqlite-jdbc: api for sqlite-database
 
 <strong>ui design:</strong>  
  ![ui](READMEpic/ui.png)
+ ![ui+](READMEpic/ui+.png)
 
 <strong>structure of database:</strong>  
  ![db](READMEpic/sql-schema.png)
 
-<strong>/Beispiel</strong> is used for testing, for now it schould be placed in C:\Users\Administrator\Desktop\Beispiel
+<strong>/Beispiel</strong> is used for testing, contains datafiles of workpieces(not real)  
+<strong>/GUI_2.1</strong> is the project  
+<strong>/EpasGUI_java</strong>is the final release version, contains excutable file "Gui.jar" and its dependent folders "/libs" "/resources"
 
 
 

@@ -1,0 +1,423 @@
+package javagui.view;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
+
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.CheckBoxTreeCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+public class DialogMassnahme extends Stage {
+	private static ArrayList<String> massVorschlag;
+
+	private static TreeView<String> tree1;
+	private static TreeView<String> tree2;
+	private static TreeView<String> tree3;
+	private static TreeView<String> tree4;
+	private static TreeView<String> tree5;
+	
+	private static ArrayList<String> MaList_F1 = new ArrayList<String>();//for Default
+	private static ArrayList<String> MaList_F2 = new ArrayList<String>();
+	private static ArrayList<String> MaList_F3 = new ArrayList<String>();
+	private static ArrayList<String> MaList_F4 = new ArrayList<String>();
+	private static ArrayList<String> MaList_F5 = new ArrayList<String>();
+	
+	private static TextArea ta1;
+	private static TextArea ta2;
+	private static TextArea ta3;
+	private static TextArea ta4;
+	private static TextArea ta5;
+	
+	private static String kmt1 = new String();//for Default
+	private static String kmt2 = new String();
+	private static String kmt3 = new String();
+	private static String kmt4 = new String();
+	private static String kmt5 = new String();
+	
+	private static String fehlerChangeCheck_old;
+
+	public DialogMassnahme() {
+		VBox vb = new VBox();
+
+		Label labelTop = new Label();
+		labelTop.setText(" Bestaetigen Sie bitte zutrefende Massnahme(n):");
+		labelTop.setFont(new Font(20));
+
+		Separator separline = new Separator();
+		separline.setStyle("-fx-background-color: Black;");
+
+		Label labelBlank = new Label();
+
+		vb.getChildren().add(labelTop);
+		vb.getChildren().add(separline);
+		vb.getChildren().add(labelBlank);
+		
+		String fehlerChangeCheck_new = InterfaceController.fehlerart1 
+				+ InterfaceController.fehlerart2
+				+ InterfaceController.fehlerart3
+				+ InterfaceController.fehlerart4
+				+ InterfaceController.fehlerart5;
+		if(fehlerChangeCheck_old !=null){
+		//if Fehlerart not identify before and after openning of the dialog, then reset MaList and kmt
+			if (!fehlerChangeCheck_new.equals(fehlerChangeCheck_old)){
+				MaListClear();
+				KMTsetNull();
+				}
+		}
+		fehlerChangeCheck_old = fehlerChangeCheck_new;
+
+		if (InterfaceController.fehlerart1 != null) {
+			// TreeView<String> tree;
+			tree1 = observablelistToTree(1, InterfaceController.fehlerart1, InterfaceController.massZuFehler1Dialog, MaList_F1);
+			vb.getChildren().add(allInVBox(tree1, 1));
+		}
+		if (InterfaceController.fehlerart2 != null) {
+			// TreeView<String> tree;
+			tree2 = observablelistToTree(2, InterfaceController.fehlerart2, InterfaceController.massZuFehler2Dialog, MaList_F2);
+			vb.getChildren().add(allInVBox(tree2, 2));
+		}
+		if (InterfaceController.fehlerart3 != null) {
+			// TreeView<String> tree;
+			tree3 = observablelistToTree(3, InterfaceController.fehlerart3, InterfaceController.massZuFehler3Dialog, MaList_F3);
+			vb.getChildren().add(allInVBox(tree3, 3));
+		}
+		if (InterfaceController.fehlerart4 != null) {
+			// TreeView<String> tree;
+			tree4 = observablelistToTree(4, InterfaceController.fehlerart4, InterfaceController.massZuFehler4Dialog, MaList_F4);
+			vb.getChildren().add(allInVBox(tree4, 4));
+		}
+		if (InterfaceController.fehlerart5 != null) {
+			// TreeView<String> tree;
+			tree5 = observablelistToTree(5, InterfaceController.fehlerart5, InterfaceController.massZuFehler5Dialog, MaList_F5);
+			vb.getChildren().add(allInVBox(tree5, 5));
+		}
+
+		//set the picture for Ja-Button on DialogMassnahme
+		File url_Ja = new File("resources/images/button_Ja.png");
+		Image imageJa = new Image(url_Ja.toURI().toString());
+		ImageView imageViewJa = new ImageView(imageJa);
+		imageViewJa.setFitHeight(20);
+		imageViewJa.setFitWidth(45);
+
+		//set the picture for Nein-Button on DialogMassnahme
+		File url_Nein = new File("resources/images/button_Nein.png");
+		Image imageNein = new Image(url_Nein.toURI().toString());
+		ImageView imageViewNein = new ImageView(imageNein);
+		imageViewNein.setFitHeight(20);
+		imageViewNein.setFitWidth(45);
+
+		Button btnJa = new Button("", imageViewJa);
+		Button btnNein = new Button("", imageViewNein);
+
+		btnJa.setOnAction(new EventHandler<ActionEvent>() {//set value to massVorschlag and close DialogMassnahme
+			@Override
+			public void handle(ActionEvent event) {
+				massVorschlag = new ArrayList<String>();
+
+				MaListClear();//reset 5 MaList-Strings before close the Dialog
+				KMTsetNull();//reset 5 kmt-Strings before close the Dialog
+				
+				if (InterfaceController.fehlerart1 != null) {
+					getInfoToString(tree1,1);
+				}
+				if (InterfaceController.fehlerart2 != null) {
+					getInfoToString(tree2,2);
+				}
+				if (InterfaceController.fehlerart3 != null) {
+					getInfoToString(tree3,3);
+				}
+				if (InterfaceController.fehlerart4 != null) {
+					getInfoToString(tree4,4);
+				}
+				if (InterfaceController.fehlerart5 != null) {
+					getInfoToString(tree5,5);
+				}
+				
+				System.out.println(MaList_F1);
+				System.out.println(MaList_F2);
+				System.out.println(MaList_F3);
+				System.out.println(MaList_F4);
+				System.out.println(MaList_F5);
+				
+				String s = massVorschlag.toString();
+				s = s.replace("[", "");// remove [ ,which automative added by transformation of ArrayList to String
+				s = s.replace("]", "");// remove ] ,which automative added by transformation of ArrayList to String
+				String[] arrayMV = s.split("Yifei, ");
+				arrayMV[arrayMV.length - 1] = arrayMV[arrayMV.length - 1].replace("Yifei", "");
+
+				InterfaceController.massVorschlagForTxt = new String[arrayMV.length];//instantiate the String
+				for(int i=0; i<arrayMV.length;i++){
+					InterfaceController.massVorschlagForTxt[i] = arrayMV[i];
+				}//to print txt-date
+				close();
+			}
+		});
+
+		btnNein.setOnAction(new EventHandler<ActionEvent>() {//close the DialogMassnahme
+			@Override
+			public void handle(ActionEvent event) {
+				close();
+			}
+		});
+
+		Label lb = new Label("  ");
+		lb.setVisible(false);
+		HBox hb = new HBox(btnJa, lb, btnNein);
+		hb.setAlignment(Pos.CENTER_RIGHT);
+		vb.getChildren().add(hb);
+
+		AnchorPane ap = new AnchorPane(vb);
+		AnchorPane.setTopAnchor(vb, 0.0);
+		AnchorPane.setLeftAnchor(vb, 10.0);
+		AnchorPane.setRightAnchor(vb, 15.0);
+		AnchorPane.setBottomAnchor(vb, 10.0);
+
+		ScrollPane sc = new ScrollPane(ap);
+		ap.setStyle("-fx-background-color:#A9D0F5;");
+
+		sc.setFitToHeight(true);
+
+		File f = new File("./resources/dialog_mass.css");
+		try {
+			sc.getStylesheets().add(f.toURI().toURL().toExternalForm());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		sc.getStylesheets().add("resources/dialog_mass.css");//load CSS for TreeView and ScrollBar
+		sc.setStyle("-fx-background-color:#A9D0F5;"
+				+ "-fx-background-radius: 10 10 10 10;"
+				+ "-fx-border-color: white;"
+				+ "-fx-border-radius: 10 10 10 10;" 
+				+ "-fx-border-width: 5;");
+
+		Scene scene = new Scene(sc, 690, 670);
+
+		this.setScene(scene);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setTitle("Massnahmeauswahl");
+		this.centerOnScreen();
+		this.setResizable(false);
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//transformate massZuFehler1~5 to Tree
+	public TreeView<String> observablelistToTree(int n, String fehlerart,
+			ObservableList<String> massZuFehler, ArrayList<String> MaList) {
+
+		String s = massZuFehler.toString();
+		s = s.replace("[", " ");// remove [ ,which automative added by transformation of ObservableList to String
+		s = s.replace("]", " ");// remove ] ,which automative added by transformation of ObservableList to String
+
+		String[] arrayU = s.split("Xiong,");
+		arrayU[arrayU.length - 1] = arrayU[arrayU.length - 1].replace("Xiong", "");
+
+		String[][] F;
+		F = new String[arrayU.length][];// get the length of the first dimension of 2-D-Array F
+
+		for (int j = 0; j < arrayU.length; j++) {
+			String stringU = arrayU[j];
+			String[] arrayM = stringU.split("LessIsMore,");
+			arrayM[arrayM.length - 1] = arrayM[arrayM.length - 1].replace("LessIsMore", "");
+			F[j] = new String[arrayM.length];// get the langth of the second dimension of 2-D-Array F
+
+			for (int i = 0; i < arrayM.length; i++) {
+				F[j][i] = arrayM[i];
+			} // set all value of 2-D-Array F
+		}
+
+		TreeView<String> tree;
+		CheckBoxTreeItem<String> rootF = new CheckBoxTreeItem<>("zur Fehler" + n + "(" + fehlerart + "):");//treeroot
+		rootF.setExpanded(true);
+
+		int h = 1;//count the line number of tree from 1, cause 0 for root
+		int x = 0;//for the elements of MaList
+		for (int j = 0; j < F.length; j++) {
+			CheckBoxTreeItem<String> treeU;
+			treeU = makeBranch(F[j][0], rootF);//make branch of "zur Ursache¡­¡­"
+			
+			for (int i = 1; i < F[j].length; i++) {
+				if (F[j][i].length() > 4) {//if the item isn't blank, its length must be longer as 4
+					h++;
+					CheckBoxTreeItem<String> treeM;
+					treeM = makeBranch(F[j][i], treeU);//make branch of Massnahme
+					if(MaList.size() != 0){
+						if(MaList.get(x) == "S"){treeM.setSelected(true);}
+						x++;
+					}
+				}
+			}
+		}///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		tree = new TreeView<>(rootF);
+		tree.setCellFactory(CheckBoxTreeCell.<String> forTreeView());
+		tree.setBackground(null);
+
+		tree.setMinWidth(660);
+		tree.setMaxHeight(h * 35);
+		tree.setMinHeight(h * 35);
+
+		return tree;
+	}
+
+	public CheckBoxTreeItem<String> makeBranch(String title, CheckBoxTreeItem<String> parent) {//add branch
+		CheckBoxTreeItem<String> item = new CheckBoxTreeItem<String>(title);
+		item.setExpanded(true);
+		parent.getChildren().add(item);
+		return item;
+	}
+
+	public VBox allInVBox(TreeView<String> tree, int Fn) {
+		VBox checkboxVBox = new VBox(0);
+
+		checkboxVBox.getChildren().add(tree);
+
+		Label labelKommentar = new Label();
+		labelKommentar.setText("Kommentar");
+		labelKommentar.setFont(new Font(15));
+		checkboxVBox.getChildren().add(labelKommentar);
+		
+		switch (Fn){
+		case (1): 
+			ta1 = new TextArea();
+		    ta1.setMinHeight(80);
+		    ta1.setWrapText(true);
+		    checkboxVBox.getChildren().add(ta1);
+		    if(kmt1 != null){ta1.setText(kmt1);}
+		    break;
+		case (2): 
+			ta2 = new TextArea();
+		    ta2.setMinHeight(80);
+		    ta2.setWrapText(true);
+		    checkboxVBox.getChildren().add(ta2);
+		    if(kmt2 != null){ta2.setText(kmt2);}
+		    break;
+		case (3): 
+			ta3 = new TextArea();
+		    ta3.setMinHeight(80);
+		    ta3.setWrapText(true);
+		    checkboxVBox.getChildren().add(ta3);
+		    if(kmt3 != null){ta3.setText(kmt3);}
+		    break;
+		case (4): 
+			ta4 = new TextArea();
+		    ta4.setMinHeight(80);
+		    ta4.setWrapText(true);
+		    checkboxVBox.getChildren().add(ta4);
+		    if(kmt4 != null){ta4.setText(kmt4);}
+		    break;
+		case (5): 
+			ta5 = new TextArea();
+		    ta5.setMinHeight(80);
+		    ta5.setWrapText(true);
+		    checkboxVBox.getChildren().add(ta5);
+		    if(kmt5 != null){ta5.setText(kmt5);}
+		    break;
+		}
+
+		Label labelBlank1 = new Label();
+		labelBlank1.setMinHeight(15);
+		Separator separline = new Separator();
+		separline.setStyle("-fx-background-color: Black;");
+		Label labelBlank2 = new Label();
+		labelBlank2.setMinHeight(20);
+		checkboxVBox.getChildren().addAll(labelBlank1, separline, labelBlank2);
+
+		return checkboxVBox;
+	}
+	
+	private void getInfoToString(TreeView<String> tree, int Fn) {
+		System.out.println(tree.getRoot().getValue());
+		massVorschlag.add(tree.getRoot().getValue() + "Yifei");//get the information to tree root
+		getSelectedCB(tree.getRoot(), Fn);//get all selected tree items of tree
+		
+		massVorschlag.add("Kommentar: " + "Yifei");
+		switch(Fn){
+		case (1):
+			massVorschlag.add(ta1.getText() + "Yifei");
+		    kmt1 = ta1.getText();
+		    break;
+		case (2):
+			massVorschlag.add(ta2.getText() + "Yifei");
+	        kmt2 = ta2.getText();
+	        break;
+		case (3):
+			massVorschlag.add(ta3.getText() + "Yifei");
+            kmt3 = ta3.getText();
+            break;
+		case (4):
+			massVorschlag.add(ta4.getText() + "Yifei");
+            kmt4 = ta4.getText();
+            break;
+		case (5):
+			massVorschlag.add(ta5.getText() + "Yifei");
+            kmt5 = ta5.getText();
+            break;
+		}
+		massVorschlag.add("Yifei");//set a new line for each Fehler
+	}
+	private void getSelectedCB(TreeItem<String> root, int Fn) {
+		for (TreeItem<String> treeitem : root.getChildren()) {
+			if ((treeitem.getChildren()).isEmpty()) {//if this item is a leaf, then check if it selected
+				String SorU;
+				if (((CheckBoxTreeItem<String>) treeitem).isSelected()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+					SorU = "S";//-Selected? -Yes.
+				}
+				else {SorU = "U";}//-Selected? -No.
+				switch(Fn){
+				case (1):MaList_F1.add(SorU);break;
+				case (2):MaList_F2.add(SorU);break;
+				case (3):MaList_F3.add(SorU);break;
+				case (4):MaList_F4.add(SorU);break;
+				case (5):MaList_F5.add(SorU);break;
+				}
+				
+			} else {//if this item is a leaf, then check if it selected or indeterminated
+				if (((CheckBoxTreeItem<String>) treeitem).isSelected()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+				} else if (((CheckBoxTreeItem<String>) treeitem).isIndeterminate()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+				}
+				getSelectedCB(treeitem, Fn);
+			}
+		}
+	}
+	
+	private void MaListClear(){//reset MaList
+		MaList_F1.clear();
+		MaList_F2.clear();
+		MaList_F3.clear();
+		MaList_F4.clear();
+		MaList_F5.clear();
+	}
+	private void KMTsetNull(){//reset kmt
+		kmt1 = null;
+		kmt2 = null;
+		kmt3 = null;
+		kmt4 = null;
+		kmt5 = null;
+	}
+}

@@ -134,7 +134,7 @@ public class InterfaceController {
 	@FXML
 	private ComboBox<String> ur_zu_Fehler2;
 	@FXML
-	private ComboBox<String> ur_zu_Fehler3;	
+	private ComboBox<String> ur_zu_Fehler3;
 	@FXML
 	private ComboBox<String> ur_zu_Fehler4;
 	@FXML
@@ -154,7 +154,7 @@ public class InterfaceController {
 	
 	public static String folederPath = null;//folederPath can be used everywhere in this class
 	
-	public static int faceSeNum = 0;//默认表面序号为0
+	public static int faceSeNum = 0;//default setting of face serial number is 0
 	
 	public static String fehlerart1 = null;//create static variables to pass values from Classify to FehlerAnalyse
 	public static String fehlerart2 = null;
@@ -168,33 +168,32 @@ public class InterfaceController {
 	public static ObservableList<String> massZuFehler4 = null;
 	public static ObservableList<String> massZuFehler5 = null;
 	
-	public static ObservableList<String> massZuFehler1Dialog = null;//专为DialogMassnahme而设
+	public static ObservableList<String> massZuFehler1Dialog = null;//use for DialogMassnahme
 	public static ObservableList<String> massZuFehler2Dialog = null;
 	public static ObservableList<String> massZuFehler3Dialog = null;
 	public static ObservableList<String> massZuFehler4Dialog = null;
 	public static ObservableList<String> massZuFehler5Dialog = null;
 
-	public static String massVorschlagForTxt[];//用于DialogMassnahme和保存。txt文档
+	public static String massVorschlagForTxt[];//use for DialogMassnahme and save as txt-date
 	
-	public static String Folder_URL = "C:\\Users\\Administrator\\Desktop\\Beispiel";
-	public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
+	//public static String Folder_URL = "C:\\Users\\Administrator\\Desktop";
+	public static String Folder_URL = "C:\\";
+	//public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
+	public static String DB_URL = "jdbc:sqlite:resources/datenbank/epasSTUDI.db";
 	
 	@FXML
 	public void openFolderAction(ActionEvent event) throws InterruptedException{				
 		DirectoryChooser folderOpen = new DirectoryChooser();
 		//set initial Folder:
 		folderOpen.setInitialDirectory(new File(Folder_URL));
-		File selectedDirectory = folderOpen.showDialog(null);//String folederPath = null;
+		File selectedDirectory = folderOpen.showDialog(null);
 		
 		if(selectedDirectory != null){
 			folederPath = selectedDirectory.getAbsolutePath();//get path of the selected folder
 			txtFolderPath.setText(folederPath);
 			
 			lineChartInitial();//the linechart cleared after open a new Folder
-//			btnJa.setDisable(true);//在klassifikation使用之前不得使用数据库及衍生功能
-//			btnNein.setDisable(true);
-//			btnJaUnten.setDisable(true);
-//			btnNeinUnten.setDisable(true);
+
 			btnFace1.setSelected(false);
 			btnFace2.setSelected(false);
 			btnFace3.setSelected(false);
@@ -212,12 +211,12 @@ public class InterfaceController {
 		
 		tooltipFolderPath.setText(folederPath);//[tool-tip] get path of selected folder
 		
-	//【read Einstellungen in Labels】:		
+	    //read Einstellungen in Labels:		
 		String filePath_log_part = "\\log.txt"; 		
 		String filePath_log_full = folederPath + filePath_log_part;
 		//get path of log.txt(Einstellungen) in the selected folder
 		
-		//【print all the Information from log.txt line by line】:
+		//print all the Information from log.txt line by line:
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath_log_full))) {
 			String line;
 			int i=1;
@@ -326,9 +325,7 @@ public class InterfaceController {
 	private void readinMotorLeistung(String filePath_lst_part) {
 		String filePath_lst_full = folederPath + "\\lst" + filePath_lst_part;
 		//get path of lst.txt(MotorLeistung) in the selected folder
-		
-//		lineChartML.setTitle("Motor Leistung [W]");		
-//		lineChartML.setAnimated(false);
+
 		lineChartML.getData().add(drawLineChart(filePath_lst_full, "P"));
 	}
 	
@@ -340,8 +337,6 @@ public class InterfaceController {
 		String filePath_krf_z_full = folederPath + "\\krf_z" + filePath_krf_part;
 		//get path of krf.txt(Kraefte) in the selected folder
 		
-//		lineChartKrf.setTitle("Kraefte [N]");
-//		lineChartKrf.setAnimated(false);
 		lineChartKrf.getData().add(drawLineChart(filePath_krf_x_full,"Fx"));
 		lineChartKrf.getData().add(drawLineChart(filePath_krf_y_full,"Fy"));
 		lineChartKrf.getData().add(drawLineChart(filePath_krf_z_full,"Fz"));
@@ -357,8 +352,6 @@ public class InterfaceController {
 		String filePath_mm_z_full = folederPath + "\\mm_z" + filePath_mm_part;
 		//get path of mm.txt(Momente) in the selected folder
 		
-//		lineChartMm.setTitle("Momente [Nm]");		
-//		lineChartMm.setAnimated(false);
 		lineChartMm.getData().add(drawLineChart(filePath_mm_x_full,"Tx"));
 		lineChartMm.getData().add(drawLineChart(filePath_mm_y_full,"Ty"));
 		lineChartMm.getData().add(drawLineChart(filePath_mm_z_full,"Tz"));
@@ -367,13 +360,12 @@ public class InterfaceController {
 	public Series<Number, Number> drawLineChart(String filePath_full, String name){
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 		series.setName(name);
-		int y=0;//y是折线图的y轴
+		int y=0;//y is y-achse of linechart
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath_full))) {
 			String line;//every line is a value of something from txt
 			
-			int x=1;//x是折线图的x轴
+			int x=1;//x is x-achse of linechart
 			while ((line = br.readLine()) != null) {
-			//	System.out.println(line);
 				y = Integer.parseInt((String)line);
 				series.getData().add(new XYChart.Data<>(x,y));
 				x++;
@@ -403,9 +395,9 @@ public class InterfaceController {
 		massZuFehler5Dialog = null;
 	}
 	
-	@FXML//work with Matlab-Programm!!!!!!!!!!!!!!!!!!!!
+	@FXML//work with Matlab-Programm
 	public void klassifikationAction(ActionEvent event) throws MWException{
-		fehler_ReportInitial();//清空报告栏
+		fehler_ReportInitial();//reset Report-Zone
 		ursache_ReportInitial();
 		mass_ReportInitial();
 		stringForReportInitial();
@@ -426,12 +418,12 @@ public class InterfaceController {
 			MWArray.disposeArray(output_e);
 		}
 		
-		btnJa.setDisable(false);//现在可以进行数据分析、点击【Ja】了
-		btnNein.setDisable(false);//现在可以修改Fehler类型、点击【Nein】了
+		btnJa.setDisable(false);
+		btnNein.setDisable(false);
 	}//end of Classify
 	
 	@FXML
-	public void fehlerEdit(ActionEvent event) throws MWException, ClassNotFoundException{//btnNein的功能
+	public void fehlerEdit(ActionEvent event) throws MWException, ClassNotFoundException{//function of btnNein
 		ursache_ReportInitial();
 		mass_ReportInitial();
 		MainApp.showDialogFeler();
@@ -443,18 +435,18 @@ public class InterfaceController {
 		
 		btnJaUnten.setDisable(true);
 		btnNeinUnten.setDisable(true);
-		massVorschlagForTxt = null;//让massnahmeVorschlag打印内容初始化
+		massVorschlagForTxt = null;//reset the inhalt of massnahmeVorschlag for print
 		
 		if(fehlerart1 == null){
 			btnJa.setDisable(true);
 		}
 	}
 	
-	@FXML//work with SQLite-Datenbanke!!!!!!!!!!!!!!!!!!!!
+	@FXML//work with SQLite-Datenbanke
 	public void datenAnalyseAction(ActionEvent event) throws MWException, ClassNotFoundException{
 		if(fehlerart1 != null){
 			ur_zu_Fehler1.setItems(datenAnalyse(fehlerart1, 1));
-			ur_zu_Fehler1.getSelectionModel().selectFirst();//默认选择（显示）第一个Ursache
+			ur_zu_Fehler1.getSelectionModel().selectFirst();//show the first Ursache
 		}
 		if(fehlerart2 != null){
 			ur_zu_Fehler2.setItems(datenAnalyse(fehlerart2, 2));
@@ -475,7 +467,7 @@ public class InterfaceController {
 
 		if(massZuFehler1 != null){
 			mass_zu_Fehler1.setItems(massZuFehler1);
-			mass_zu_Fehler1.getSelectionModel().selectFirst();//默认选择（显示）第一个Massnahme
+			mass_zu_Fehler1.getSelectionModel().selectFirst();//show the first Massnahme
 		}
 		if(massZuFehler2 != null){
 			mass_zu_Fehler2.setItems(massZuFehler2);
@@ -494,7 +486,7 @@ public class InterfaceController {
 			mass_zu_Fehler5.getSelectionModel().selectFirst();
 		}
 		
-		btnJaUnten.setDisable(false);//执行数据库分析后可以使用下方的Ja和Nein按钮用于保存和更改Massnahme
+		btnJaUnten.setDisable(false);
 		btnNeinUnten.setDisable(false);
 	}//end of FehlerAnalyse
 
@@ -506,13 +498,10 @@ public class InterfaceController {
 		System.out.println(fehlerart + " is now passed into Datebank");
 		
 		ObservableList<String> urbesch_ArrLst = FXCollections.observableArrayList(); 
-		//用ObservableList建立动态数组用于接收DB内容【原因描述】，并向外传递，用于之后找Massnahme
 		ObservableList<String> urbesch_ArrLst_s = FXCollections.observableArrayList(); 
-		//同上，尾标的s是表示用于存储加序号的版本，用于最终的返回值
 		
 		ObservableList<String> massbesch_ArrLst = FXCollections.observableArrayList();
 		ObservableList<String> massbesch_ArrLst_Dialog = FXCollections.observableArrayList();
-		//专为后面DialogMassnahme的显示处理所添加的变量
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -521,78 +510,67 @@ public class InterfaceController {
 			connection = DriverManager.getConnection(DB_URL,config.toProperties());
 			statement = connection.createStatement();
 
-			//根据缺陷名称找《Fehlerart》表中的Fehlerart_id
+			//search Fehlerart_id from TABLE Fehlerart by Fehlername
 			resultSet = statement.executeQuery("select Fehlerart_id from Fehlerart where Fehlername = '"+fehlerart+"'");
 			String fehler_id = resultSet.getString("Fehlerart_id");
 			resultSet.close();
-//			System.out.println("Fehlerart_id = " +fehler_id);
 			
-			//根据Fehlerart_id找《FZuordnung》表中的Ursache_id
+			//search Ursache_id from TABLE FZuordnung by Fehlerart_idt_id
 			resultSet = statement.executeQuery("select Ursache_id from Zuordnung where Fehlerart_id = '"+fehler_id+"'");
 			String ursache_id_old = "";
 			String ursache_id_new = "";
 			
-			ArrayList<String> urid_ArrLst = new ArrayList<String>();//用Arraylist建立动态数组用于接收db内容【原因id】
-			int n_ur = 0;//n_ur用来计数针对给定的这个缺陷有多少个不重复的Ursache
+			ArrayList<String> urid_ArrLst = new ArrayList<String>();
+			int n_ur = 0;//to count the number of Ursache
 			while (resultSet.next()){
 				ursache_id_new = resultSet.getString("Ursache_id");
 				if(ursache_id_old.equals(ursache_id_new)==false){
-//					System.out.println("Ursache_id = " + ursache_id_new);
 					urid_ArrLst.add(resultSet.getString("Ursache_id"));
 					n_ur ++;
 				}
 				ursache_id_old = ursache_id_new;
 			}
 			
-			String[] urid_Arr = new String[n_ur];//建立1个长度为n_ur的一般数组，用于接收ArrayList中的内容【原因id】
-//			ArrayList<String> urbesch_ArrLst = new ArrayList<String>();//用ArrayList建立动态数组用于接收DB内容【原因描述】
-//			ObservableList<String> urbesch_ArrLst = FXCollections.observableArrayList(); 
-			String[] urbesch_Arr = new String[n_ur];//建立1个长度为n_ur的一般数组，用于接收ArrayList的内容【原因描述】
+			String[] urid_Arr = new String[n_ur];
+			String[] urbesch_Arr = new String[n_ur];
 			for (int i = 0; i < n_ur; i++){
-				urid_Arr[i] = urid_ArrLst.get(i);//【原因id】从ArrayList交给一般数组
+				urid_Arr[i] = urid_ArrLst.get(i);
 				
-				//根据Ursache_id找《Ursache》表中的Ursachebeschreibung
+				//search Ursachebeschreibung from TABLE Ursache by Ursache_id
 				resultSet = statement.executeQuery("select Ursachebeschreibung from Ursache where Ursache_id = '"+urid_Arr[i]+"'");
 				int ni = i + 1;
-				String si = "" + ni;//用于在Ursache前加序号
+				String si = "" + ni;//for add serial number before Ursache
 				urbesch_ArrLst_s.add(si + ". " + resultSet.getString("Ursachebeschreibung"));
 				urbesch_ArrLst.add(resultSet.getString("Ursachebeschreibung"));
 				resultSet.close();
-				urbesch_Arr[i] = urbesch_ArrLst.get(i);//【原因描述】从ArrayList交给一般数组
-//	        	System.out.println("Ursache" + urid_Arr[i] + ": " + urbesch_Arr[i]);
+				urbesch_Arr[i] = urbesch_ArrLst.get(i);
 	        	
 	        	massbesch_ArrLst.add("zur Ursache" + si + " (" + urbesch_Arr[i] + "):");
 	        	massbesch_ArrLst_Dialog.add("zur Ursache" + si + " (" + urbesch_Arr[i] + "):" + "LessIsMore");
-	        	
-	        	//根据措施描述找《Ursache》表中的Ursache_id
-//				resultSet = statement.executeQuery("select Ursache_id from Ursache where Ursachebeschreibung = '"+urbesch_Arr[i]+"'");
-//				String ursache_id = resultSet.getString("Ursache_id");
-//				resultSet.close();
-//				System.out.println("Ursache_id = " +ursache_id);
 				
-				//根据Ursache_idFe以及hlerart_id（以防措施出现重复）找《Zuordnung》表中的Massnahme_id
+				//search Massnahme_id from TABLE Zuordnung by Ursache_idFe and hlerart_id
 	        	resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+urid_Arr[i]+"' and Fehlerart_id = '"+fehler_id+"'");
 
-				ArrayList<String> massid_ArrLst = new ArrayList<String>();//用Arraylist建立动态数组用于接收db内容【措施id】
-				int n_mass = 0;//n_mass用来计数针对当下这个原因有多少个Massnahme
+				ArrayList<String> massid_ArrLst = new ArrayList<String>();
+				int n_mass = 0;//to count the number of Massnahme
 				while (resultSet.next()){
 					massid_ArrLst.add(resultSet.getString("Massnahme_id"));
 					n_mass ++;
 				}
-				String[] massid_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList中的内容【措施id】
-				String[] massbesch_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList的内容【措施描述】
+				String[] massid_Arr = new String[n_mass];
+				String[] massbesch_Arr = new String[n_mass];
 		        for (int j = 0; j < n_mass; j++) {
 		        	int nj = j + 1;
-					String sj = "" + nj;//用于在Massnahme前加序号
-		        	massid_Arr[j] = massid_ArrLst.get(j);//【措施id】从ArrayList交给一般数组
+					String sj = "" + nj;//for add serial number before Massnahme
+		        	massid_Arr[j] = massid_ArrLst.get(j);
 		        	resultSet = statement.executeQuery("select Massnahmebeschreibung from Massnahme where Massnahme_id = '"+massid_Arr[j]+"'");
 		        	massbesch_ArrLst.add(sj + ". " +resultSet.getString("Massnahmebeschreibung"));
 		        	massbesch_ArrLst_Dialog.add(sj + ". " +resultSet.getString("Massnahmebeschreibung") + "LessIsMore");
-					massbesch_Arr[j] = massbesch_ArrLst.get(j);//【措施描述】从ArrayList交给一般数组
+					massbesch_Arr[j] = massbesch_ArrLst.get(j);
 		        }
 		        massbesch_ArrLst.add(" ");
 		        massbesch_ArrLst_Dialog.add(" " + "LessIsMore" + "Xiong");
-		        //此处及上面那些添加的字母串"LessIsMore"是为了后面DialogMassnahme中显示处理方便而添加的
+		        //"LessIsMore" and "Xiong" is added for later processing in DialogMassnahme
 			}
 		}
 		catch(SQLException e){
@@ -643,12 +621,12 @@ public class InterfaceController {
 
 ///////////////////////////////////↑↑↑Datenbank↑↑↑///////////////////////////////////////////////
 	@FXML
-	public void massnahmeChange(ActionEvent event){//btnNeinUnten的功能
+	public void massnahmeChange(ActionEvent event){//function of btnNeinUnten
 		DialogMassnahme dm = new DialogMassnahme();
 		dm.showAndWait();
 	}
 	@FXML
-	public void saveToText(ActionEvent event) throws IOException{//btnJaUnten的功能
+	public void saveToText(ActionEvent event) throws IOException{//function of btnJaUnten
 		if(massVorschlagForTxt != null){
 			SimpleDateFormat tf = new SimpleDateFormat("yyyy-MM-dd_HH_mm_ss");
 			String timeNow = tf.format(new Date());
