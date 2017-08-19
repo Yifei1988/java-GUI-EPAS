@@ -4,9 +4,9 @@ import java.io.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.stage.DirectoryChooser;
 
 public class InterfaceController {
@@ -15,6 +15,9 @@ public class InterfaceController {
 	
 	@FXML
 	private TextField txtFolderPath;
+	
+	@FXML
+	private Tooltip tooltipFolderPath;
 	
 	@FXML
 	private Label chargenNum;
@@ -73,11 +76,13 @@ public class InterfaceController {
 		String folederPath = null;
 		if(selectedDirectory != null){
 			folederPath = selectedDirectory.getAbsolutePath();
-		    txtFolderPath.setText(folederPath);
+			txtFolderPath.setText(folederPath);
 		}
 		else{System.out.println("Kein Ordner!");}
+		tooltipFolderPath.setText(folederPath);
 		String filePathNameSet = "\\set.txt"; 
-		String filePathSet = folederPath + filePathNameSet;//文件夹字符串+文件名字符串
+		String filePathSet = folederPath + filePathNameSet;
+		//get path of set.txt(Einstellungen) in the selected folder
 		
 	
 		//read TXT file:
@@ -105,6 +110,7 @@ public class InterfaceController {
 
 //		String fileName = "C:\\Users\\Administrator\\Desktop\\Beispiel\\Workpiece1\\set.txt";
 		String fileName = filePathSet;
+		//print all the Information in set.txt line by line:
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			String line;
 			int i=1;
@@ -127,7 +133,7 @@ public class InterfaceController {
 				if(i==15){zuFl4.setText(line);}
 				if(i==16){zuFl5.setText(line);}
 				else{}
-				i++;				
+				i++;
 			}//end while
 			i=0;
 
