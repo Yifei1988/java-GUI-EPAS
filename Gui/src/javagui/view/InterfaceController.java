@@ -135,17 +135,19 @@ public class InterfaceController {
 	
 	@FXML
 	public void klassifikationAction(ActionEvent event) throws MWException{
-		 BKlss2 f = new BKlss2();
-	     Object fr[] = null;
-	     MWNumericArray a = null;
-	     int m = 3;
-	     a = new MWNumericArray(Double.valueOf(m), MWClassID.DOUBLE);
-	     fr = f.Klss2(1,a);//1 means one value will return, a is Input
-	     System.out.println(fr[0]);//0 means the first value
-	     
-	     fehler1.setEditable(false);
-	     PrintStream printStream = new PrintStream(new CustomOutputStream(fehler1));
-	     System.setOut(printStream);
+		fehler1.setEditable(false);
+		fehler1.clear();
+		
+		PrintStream printStream = new PrintStream(new CustomOutputStream(fehler1));
+		System.setOut(printStream);
+		
+		BKlss2 f = new BKlss2();
+		Object fr[] = null;
+		MWNumericArray a = null;
+		int m = 3;
+		a = new MWNumericArray(Double.valueOf(m), MWClassID.DOUBLE);
+		fr = f.Klss2(1,a);//1 means one value will return, a is Input
+		System.out.println(fr[0]);//0 means the first value		
 	}
 
 }
