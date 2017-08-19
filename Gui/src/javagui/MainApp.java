@@ -65,7 +65,7 @@ public class MainApp extends Application {
         }
     }
     
-    public static void showDialogFeler(String fehlerart) {
+    public static void showDialogFeler() {
         try {
             // Load the fxml file and create a new stage for the dialog-fehler.
             FXMLLoader loader = new FXMLLoader();
@@ -74,7 +74,7 @@ public class MainApp extends Application {
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Fehler bearbeiten");
+            dialogStage.setTitle("Fehler erneuern");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(primaryStage);
             Scene scene = new Scene(page);
@@ -84,13 +84,10 @@ public class MainApp extends Application {
             // Set the fehlerart into the controller.
             DialogFehlerController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
-			controller.fehlerKorrigieren(fehlerart);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
-        } catch (IOException e){e.printStackTrace();} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+        } catch (IOException e){e.printStackTrace();}
     }
 
     /**

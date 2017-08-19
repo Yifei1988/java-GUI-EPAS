@@ -3,7 +3,27 @@
    -fx-padding: 0.0px;
 }
 
+.default-color1.chart-line-symbol { 
+   -fx-background-radius: 0.0px;
+   -fx-padding: 0.0px;
+}
+
+.default-color2.chart-line-symbol { 
+   -fx-background-radius: 0.0px;
+   -fx-padding: 0.0px;
+}
+
 .default-color0.chart-series-line { 
-   -fx-stroke: #0B2161;
+   -fx-stroke: #0B2161;//blue
+   -fx-stroke-width: 0.8px;
+}
+
+.default-color1.chart-series-line { 
+   -fx-stroke: red;
+   -fx-stroke-width: 0.8px;
+}
+
+.default-color2.chart-series-line { 
+   -fx-stroke: green;
    -fx-stroke-width: 0.8px;
 }

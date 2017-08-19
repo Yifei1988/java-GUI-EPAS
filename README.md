@@ -2,21 +2,24 @@
 
 This is my Projektarbeit, a graphical user interfaces for a robot aided production system "EPAS".
 
-IDE: Eclipse  
-language: java, javafx, fxml  
-database: SQLite
+<strong>IDE:</strong> Eclipse  
+<strong>language</strong>: java, javafx, fxml  
+<strong>database</strong>: SQLite
 
-my library:
+<strong>my library:</strong>  
 Klss2: simple matlab function
 
-external libraries:  
+<strong>external libraries:</strong>  
 javabuilder: api for matlab function  
 sqlite-jdbc: api for sqlite-database
 
+<strong>ui design:</strong>  
  ![ui](READMEpic/ui.png)
+
+<strong>structure of database:</strong>  
  ![db](READMEpic/sql-schema.png)
 
-/Beispiel is used for testing.
+<strong>/Beispiel</strong> is used for testing, for now it schould be placed in C:\Users\Administrator\Desktop\Beispiel
 
 
 

@@ -7,14 +7,13 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -50,23 +49,18 @@ public class InterfaceController {
 	final ToggleGroup tg = new ToggleGroup();
 	
 	@FXML
-	private ToggleButton btnFace1;
-	
+	private ToggleButton btnFace1;	
 	@FXML
-	private ToggleButton btnFace2;
-	
+	private ToggleButton btnFace2;	
 	@FXML
-	private ToggleButton btnFace3;
-	
+	private ToggleButton btnFace3;	
 	@FXML
-	private ToggleButton btnFace4;
-	
+	private ToggleButton btnFace4;	
 	@FXML
 	private ToggleButton btnFace5;
 	
 	@FXML
-	private Button btnJa;//for Analysis of Fehlerdaten with Datenbank
-	
+	private Button btnJa;//for Analysis of Fehlerdaten with Datenbank	
 	@FXML
 	private Button btnNein;//for change Fehlerat
 	
@@ -77,79 +71,98 @@ public class InterfaceController {
 	private Tooltip tooltipFolderPath;
 	
 	@FXML
-	private Label chargenNum;
-	
+	private Label chargenNum;	
 	@FXML
-	private Label bauteilNum;
-	
+	private Label bauteilNum;	
 	@FXML
-	private Label scheibNum;
-	
+	private Label scheibNum;	
 	@FXML
-	private Label scheibTyp;
-	
+	private Label scheibTyp;	
 	@FXML
-	private Label scheibDrm;
-	
+	private Label scheibDrm;	
 	@FXML
-	private Label tool;
-	
+	private Label tool;	
 	@FXML
-	private Label paste;
-	
+	private Label paste;	
 	@FXML
-	private Label przGswO;
-	
+	private Label przGswO;	
 	@FXML
-	private Label schGsw;
-	
+	private Label schGsw;	
 	@FXML
-	private Label fu1;
-	
+	private Label fu1;	
 	@FXML
-	private Label przGswT;
-	
+	private Label przGswT;	
 	@FXML
-	private Label zuFl1;
-	
+	private Label zuFl1;	
 	@FXML
 	private Label zuFl2;
-	
 	@FXML
-	private Label zuFl3;
-	
+	private Label zuFl3;	
 	@FXML
-	private Label zuFl4;
-	
+	private Label zuFl4;	
 	@FXML
 	private Label zuFl5;
 	
 	@FXML
-	private TextField fehler1;
+	private TextField fehler1;	
+	@FXML
+	private TextField fehler2;
+	@FXML
+	private TextField fehler3;
+	@FXML
+	private TextField fehler4;
+	@FXML
+	private TextField fehler5;
 	
 	@FXML
-	private LineChart<Number, Number> lineChartTp;
+	private LineChart<Number, Number> lineChartML;	
+	@FXML
+	private LineChart<Number, Number> lineChartKrf;	
+	@FXML
+	private LineChart<Number, Number> lineChartMm;
 	
 	@FXML
-	private LineChart<Number, Number> lineChartFq;
-	
+	private ComboBox<String> ur_zu_Fehler1;	
 	@FXML
-	private LineChart<Number, Number> lineChartPw;
-	
+	private ComboBox<String> ur_zu_Fehler2;
 	@FXML
-	private ComboBox<String> ur_zu_Fehler1;
+	private ComboBox<String> ur_zu_Fehler3;	
+	@FXML
+	private ComboBox<String> ur_zu_Fehler4;
+	@FXML
+	private ComboBox<String> ur_zu_Fehler5;
+	
 	
 	@FXML
 	private ComboBox<String> mass_zu_Fehler1;
+	@FXML
+	private ComboBox<String> mass_zu_Fehler2;
+	@FXML
+	private ComboBox<String> mass_zu_Fehler3;
+	@FXML
+	private ComboBox<String> mass_zu_Fehler4;
+	@FXML
+	private ComboBox<String> mass_zu_Fehler5;
 	
 	public static String folederPath = null;//folederPath can be used everywhere in this class
+	
 	public static String fehlerart1 = null;//create static variables to pass values from Classify to FehlerAnalyse
+	public static String fehlerart2 = null;
+	public static String fehlerart3 = null;
+	public static String fehlerart4 = null;
+	public static String fehlerart5 = null;
+	
+	public static ObservableList<String> massZuFehler1 = null;//create static variables to pass values from Databank to Massnahme-Feld
+	public static ObservableList<String> massZuFehler2 = null;
+	public static ObservableList<String> massZuFehler3 = null;
+	public static ObservableList<String> massZuFehler4 = null;
+	public static ObservableList<String> massZuFehler5 = null;
+	
 	public static String Folder_URL = "C:\\Users\\Administrator\\Desktop\\Beispiel";
 	public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
 	
 	@FXML
-	public void openFolderAction(ActionEvent event) throws InterruptedException{
-				
+	public void openFolderAction(ActionEvent event) throws InterruptedException{				
 		DirectoryChooser folderOpen = new DirectoryChooser();
 		//set initial Folder:
 		folderOpen.setInitialDirectory(new File(Folder_URL));
@@ -159,16 +172,13 @@ public class InterfaceController {
 			folederPath = selectedDirectory.getAbsolutePath();//get path of the selected folder
 			txtFolderPath.setText(folederPath);
 			
-			lineChartTp.getData().clear();
-			lineChartFq.getData().clear();
-			lineChartPw.getData().clear();//the linechart cleared after open a new Folder
-			fehler1.clear();
+			lineChartInitial();//the linechart cleared after open a new Folder
 			btnJa.setDisable(true);//在klassifikation使用之前不得使用数据库功能
-			ur_zu_Fehler1.getItems().clear();
-			mass_zu_Fehler1.getItems().clear();
-//			ur_zu_Fehler1.setItems(null);
-//			ur_zu_Fehler1.setSelectionModel(null);
-//			mass_zu_Fehler1.setItems(null);
+			btnNein.setDisable(true);
+			stringForReportInitial();
+			fehler_ReportInitial();
+			ursache_ReportInitial();
+			mass_ReportInitial();
 		}
 		else{
 			System.out.println("Kein Ordner!");
@@ -210,8 +220,6 @@ public class InterfaceController {
 			i=0;
 		} catch (IOException e) {e.printStackTrace();}
 		
-		readinTemp();//read the value of Temp. in program 
-		
 		btnFace1.setDisable(false);
 		btnFace2.setDisable(false);
 		btnFace3.setDisable(false);
@@ -220,129 +228,124 @@ public class InterfaceController {
 		
 	}//end Method of OpenFolderButton
 	
+	@FXML
+	public void lineChartInitial(){
+		lineChartML.getData().clear();
+		lineChartKrf.getData().clear();
+		lineChartMm.getData().clear();
+	}
+	
 	public void switchFaceAction1(ActionEvent event){
-		lineChartFq.getData().clear();
-		lineChartPw.getData().clear();
-		String filePath_freq_part2 = "_f1.txt";
-		readinFrequenz(filePath_freq_part2);
-		String filePath_pow_part2 = "_f1.txt";
-		readinPower(filePath_pow_part2);
+		stringForReportInitial();
+		switchFace("_f1.txt");
 	}
 	public void switchFaceAction2(ActionEvent event){
-		lineChartFq.getData().clear();
-		lineChartPw.getData().clear();
-		String filePath_freq_part2 = "_f2.txt"; 
-		readinFrequenz(filePath_freq_part2);
-		String filePath_pow_part2 = "_f2.txt";
-		readinPower(filePath_pow_part2);
+		stringForReportInitial();
+		switchFace("_f2.txt");
 	}
 	public void switchFaceAction3(ActionEvent event){
-		lineChartFq.getData().clear();
-		lineChartPw.getData().clear();
-		String filePath_freq_part2 = "_f3.txt"; 
-		readinFrequenz(filePath_freq_part2);
-		String filePath_pow_part2 = "_f3.txt";
-		readinPower(filePath_pow_part2);
+		stringForReportInitial();
+		switchFace("_f3.txt");
 	}
 	public void switchFaceAction4(ActionEvent event){
-		lineChartFq.getData().clear();
-		lineChartPw.getData().clear();
-		String filePath_freq_part2 = "_f4.txt"; 
-		readinFrequenz(filePath_freq_part2);
-		String filePath_pow_part2 = "_f4.txt";
-		readinPower(filePath_pow_part2);
+		stringForReportInitial();
+		switchFace("_f4.txt");
 	}
 	public void switchFaceAction5(ActionEvent event){
-		lineChartFq.getData().clear();
-		lineChartPw.getData().clear();
-		String filePath_freq_part2 = "_f5.txt"; 
-		readinFrequenz(filePath_freq_part2);
-		String filePath_pow_part2 = "_f5.txt";
-		readinPower(filePath_pow_part2);
+		stringForReportInitial();
+		switchFace("_f5.txt");
 	}
 	
-	private void readinTemp() {
-		String filePath_temp_part = "\\temp.txt"; 
-		String filePath_temp_full = folederPath + filePath_temp_part;
-		//get path of temp.txt(Temperature) in the selected folder
-		
-		int tp=0;
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath_temp_full))) {
-			String line;//every line is a value of Temperature
-			
-			lineChartTp.setTitle("Temperatur");
-			XYChart.Series<Number, Number> series = new XYChart.Series<>();
-			lineChartTp.setAnimated(false);
-			
-			int i=1;
-			while ((line = br.readLine()) != null) {
-			//	System.out.println(line);
-				tp = Integer.parseInt((String)line);
-				series.getData().add(new XYChart.Data<>(i,tp));
-				i++;
-			}//end while
-			lineChartTp.getData().add(series);
-		} catch (IOException e) {e.printStackTrace();}
+	public void switchFace(String filePath_part){
+		lineChartInitial();
+		String filePath_lst_part = filePath_part;
+		readinMotorLeistung(filePath_lst_part);
+		String filePath_krf_part = filePath_part; 
+		readinKraefte(filePath_krf_part);
+		String filePath_mm_part = filePath_part;
+		readinMomente(filePath_mm_part);
 	}
-
-	private void readinFrequenz(String filePath_freq_part2) {
+	
+	private void readinMotorLeistung(String filePath_lst_part) {
+		String filePath_lst_full = folederPath + "\\lst" + filePath_lst_part;
+		//get path of lst.txt(MotorLeistung) in the selected folder
+		
+//		lineChartML.setTitle("Motor Leistung [W]");		
+//		lineChartML.setAnimated(false);
+		lineChartML.getData().add(drawLineChart(filePath_lst_full, "P"));
+	}
+	
+	private void readinKraefte(String filePath_krf_part) {
 		Long startTime = System.currentTimeMillis();
 		
-		String filePath_freq_part1 = "\\freq"; 
-		String filePath_freq_full = folederPath + filePath_freq_part1 + filePath_freq_part2;
-		//get path of freq.txt(Frequenz) in the selected folder
-
-		int fq=0;
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath_freq_full))) {
-			String line;//every line is a value of Frequenz
-			
-			lineChartFq.setTitle("Frequenz");
-			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-			lineChartFq.setAnimated(false);
-			
-			int i=1;
-			while ((line = br.readLine()) != null) {
-			//	System.out.println(line);
-				fq = Integer.parseInt((String)line);
-				series.getData().add(new XYChart.Data<>(i,fq));
-				i++;
-			}//end while
-			lineChartFq.getData().add(series);
-		} catch (IOException e) {e.printStackTrace();}
+		String filePath_krf_x_full = folederPath + "\\krf_x" + filePath_krf_part;
+		String filePath_krf_y_full = folederPath + "\\krf_y" + filePath_krf_part;
+		String filePath_krf_z_full = folederPath + "\\krf_z" + filePath_krf_part;
+		//get path of krf.txt(Kraefte) in the selected folder
+		
+//		lineChartKrf.setTitle("Kraefte [N]");
+//		lineChartKrf.setAnimated(false);
+		lineChartKrf.getData().add(drawLineChart(filePath_krf_x_full,"Fx"));
+		lineChartKrf.getData().add(drawLineChart(filePath_krf_y_full,"Fy"));
+		lineChartKrf.getData().add(drawLineChart(filePath_krf_z_full,"Fz"));
 		
 		Long endTime = System.currentTimeMillis();
+		
 		System.out.println("Loadtime: "+(endTime - startTime)+"ms"); 
 	}
+
+	private void readinMomente(String filePath_mm_part) {
+		String filePath_mm_x_full = folederPath + "\\mm_x" + filePath_mm_part;
+		String filePath_mm_y_full = folederPath + "\\mm_y" + filePath_mm_part;
+		String filePath_mm_z_full = folederPath + "\\mm_z" + filePath_mm_part;
+		//get path of mm.txt(Momente) in the selected folder
+		
+//		lineChartMm.setTitle("Momente [Nm]");		
+//		lineChartMm.setAnimated(false);
+		lineChartMm.getData().add(drawLineChart(filePath_mm_x_full,"Tx"));
+		lineChartMm.getData().add(drawLineChart(filePath_mm_y_full,"Ty"));
+		lineChartMm.getData().add(drawLineChart(filePath_mm_z_full,"Tz"));
+	}
 	
-
-	private void readinPower(String filePath_pow_part2) {
-		String filePath_pow_part1 = "\\pow"; 
-		String filePath_pow_full = folederPath + filePath_pow_part1 + filePath_pow_part2;
-		//get path of pow.txt(Spannung/Power) in the selected folder
-
-		int pw=0;
-		try (BufferedReader br = new BufferedReader(new FileReader(filePath_pow_full))) {
-			String line;//every line is a value of Spannung/Power
+	public Series<Number, Number> drawLineChart(String filePath_full, String name){
+		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		series.setName(name);
+		int y=0;//y是折线图的y轴
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath_full))) {
+			String line;//every line is a value of something from txt
 			
-			lineChartPw.setTitle("Spannung");
-			XYChart.Series<Number, Number> series = new XYChart.Series<>();
-			lineChartPw.setAnimated(false);
-			
-			int i=1;
+			int x=1;//x是折线图的x轴
 			while ((line = br.readLine()) != null) {
 			//	System.out.println(line);
-				pw = Integer.parseInt((String)line);
-				series.getData().add(new XYChart.Data<>(i,pw));
-				i++;
+				y = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(x,y));
+				x++;
 			}//end while
-			lineChartPw.getData().add(series);
+
 		} catch (IOException e) {e.printStackTrace();}
+		return series;
+	}
+	
+	public void stringForReportInitial(){
+		fehlerart1 = null;
+		fehlerart2 = null;
+		fehlerart3 = null;
+		fehlerart4 = null;
+		fehlerart5 = null;
+		
+		massZuFehler1 = null;
+		massZuFehler2 = null;
+		massZuFehler3 = null;
+		massZuFehler4 = null;
+		massZuFehler5 = null;
 	}
 	
 	@FXML//work with Matlab-Programm!!!!!!!!!!!!!!!!!!!!
 	public void klassifikationAction(ActionEvent event) throws MWException{
-		fehler1.setEditable(false);
-		fehler1.clear();
+		fehler_ReportInitial();
+		ursache_ReportInitial();
+		mass_ReportInitial();
+		stringForReportInitial();
 		
 		double m =3;//this value can be changed!
 		MWNumericArray input_a = new MWNumericArray(m);;
@@ -364,39 +367,77 @@ public class InterfaceController {
 		btnNein.setDisable(false);//现在可以修改Fehler类型、点击【Nein】了
 	}//end of Classify
 	
+	@FXML
+	public void fehlerEdit(ActionEvent event) throws MWException, ClassNotFoundException{//btnNein的功能
+		ursache_ReportInitial();
+		mass_ReportInitial();
+		MainApp.showDialogFeler();
+		fehler1.setText(fehlerart1);
+		fehler2.setText(fehlerart2);
+		fehler3.setText(fehlerart3);
+		fehler4.setText(fehlerart4);
+		fehler5.setText(fehlerart5);
+	}
+	
 	@FXML//work with SQLite-Datenbanke!!!!!!!!!!!!!!!!!!!!
 	public void datenAnalyseAction(ActionEvent event) throws MWException, ClassNotFoundException{
-		ur_zu_Fehler1.setItems(datenAnalyse_ur(fehlerart1));
-		ur_zu_Fehler1.getSelectionModel().selectFirst();//默认选择第一个Ursache
-		String selectedUrsache = ur_zu_Fehler1.getSelectionModel().getSelectedItem().toString();
-		mass_zu_Fehler1.setItems(datenAnalyse_mass(selectedUrsache));
-		mass_zu_Fehler1.getSelectionModel().selectFirst();//默认选择第一个Massnahme
-		//以下这一大坨是对combobox的选择值进行监听，具体没搞懂……
-		ur_zu_Fehler1.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Object>() {
-			 @Override
-			 public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-				 if(newValue != null){
-					 String selectedUrsache = ur_zu_Fehler1.getSelectionModel().getSelectedItem().toString();
-					 try {
-						mass_zu_Fehler1.setItems(datenAnalyse_mass(selectedUrsache));
-						mass_zu_Fehler1.getSelectionModel().selectFirst();
-					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
-					}
-				 }
-			 }
-		});
+		if(fehlerart1 != null){
+			ur_zu_Fehler1.setItems(datenAnalyse(fehlerart1, 1));
+			ur_zu_Fehler1.getSelectionModel().selectFirst();//默认选择（显示）第一个Ursache
+		}
+		if(fehlerart2 != null){
+			ur_zu_Fehler2.setItems(datenAnalyse(fehlerart2, 2));
+			ur_zu_Fehler2.getSelectionModel().selectFirst();
+		}
+		if(fehlerart3 != null){
+			ur_zu_Fehler3.setItems(datenAnalyse(fehlerart3, 3));
+			ur_zu_Fehler3.getSelectionModel().selectFirst();
+		}
+		if(fehlerart4 != null){
+			ur_zu_Fehler4.setItems(datenAnalyse(fehlerart4, 4));
+			ur_zu_Fehler4.getSelectionModel().selectFirst();
+		}
+		if(fehlerart5 != null){
+			ur_zu_Fehler5.setItems(datenAnalyse(fehlerart5, 5));
+			ur_zu_Fehler5.getSelectionModel().selectFirst();
+		}
+
+		if(massZuFehler1 != null){
+			mass_zu_Fehler1.setItems(massZuFehler1);
+			mass_zu_Fehler1.getSelectionModel().selectFirst();//默认选择（显示）第一个Massnahme
+		}
+		if(massZuFehler2 != null){
+			mass_zu_Fehler2.setItems(massZuFehler2);
+			mass_zu_Fehler2.getSelectionModel().selectFirst();
+		}
+		if(massZuFehler3 != null){
+			mass_zu_Fehler3.setItems(massZuFehler3);
+			mass_zu_Fehler3.getSelectionModel().selectFirst();
+		}
+		if(massZuFehler4 != null){
+			mass_zu_Fehler4.setItems(massZuFehler4);
+			mass_zu_Fehler4.getSelectionModel().selectFirst();
+		}
+		if(massZuFehler5 != null){
+			mass_zu_Fehler5.setItems(massZuFehler5);
+			mass_zu_Fehler5.getSelectionModel().selectFirst();
+		}
 	}//end of FehlerAnalyse
 
 ///////////////////////////////////↓↓↓Datenbank↓↓↓///////////////////////////////////////////////	
-	public ObservableList<String> datenAnalyse_ur(String fehlerart) throws ClassNotFoundException {		
+	public ObservableList<String> datenAnalyse(String fehlerart, int fNr) throws ClassNotFoundException {		
 		Connection connection = null;
 		ResultSet resultSet = null;
 		Statement statement = null;
 		System.out.println(fehlerart + " is now passed into Datebank");
 		
 		ObservableList<String> urbesch_ArrLst = FXCollections.observableArrayList(); 
-		//用ObservableList建立动态数组用于接收DB内容【原因描述】，并向外传递
+		//用ObservableList建立动态数组用于接收DB内容【原因描述】，并向外传递，用于之后找Massnahme
+		ObservableList<String> urbesch_ArrLst_s = FXCollections.observableArrayList(); 
+		//同上，尾标的s是表示用于存储加序号的版本，用于最终的返回值
+		
+		ObservableList<String> massbesch_ArrLst = FXCollections.observableArrayList();
+		
 		try {
 			Class.forName("org.sqlite.JDBC");
 			SQLiteConfig config = new SQLiteConfig(); 
@@ -408,7 +449,7 @@ public class InterfaceController {
 			resultSet = statement.executeQuery("select Fehlerart_id from Fehlerart where Fehlername = '"+fehlerart+"'");
 			String fehler_id = resultSet.getString("Fehlerart_id");
 			resultSet.close();
-			System.out.println("Fehlerart_id = " +fehler_id);
+//			System.out.println("Fehlerart_id = " +fehler_id);
 			
 			//根据Fehlerart_id找《FZuordnung》表中的Ursache_id
 			resultSet = statement.executeQuery("select Ursache_id from Zuordnung where Fehlerart_id = '"+fehler_id+"'");
@@ -420,23 +461,60 @@ public class InterfaceController {
 			while (resultSet.next()){
 				ursache_id_new = resultSet.getString("Ursache_id");
 				if(ursache_id_old.equals(ursache_id_new)==false){
-					System.out.println("Ursache_id = " + ursache_id_new);
+//					System.out.println("Ursache_id = " + ursache_id_new);
 					urid_ArrLst.add(resultSet.getString("Ursache_id"));
 					n_ur ++;
 				}
 				ursache_id_old = ursache_id_new;
 			}
-
+			
 			String[] urid_Arr = new String[n_ur];//建立1个长度为n_ur的一般数组，用于接收ArrayList中的内容【原因id】
 //			ArrayList<String> urbesch_ArrLst = new ArrayList<String>();//用ArrayList建立动态数组用于接收DB内容【原因描述】
 //			ObservableList<String> urbesch_ArrLst = FXCollections.observableArrayList(); 
 			String[] urbesch_Arr = new String[n_ur];//建立1个长度为n_ur的一般数组，用于接收ArrayList的内容【原因描述】
 			for (int i = 0; i < n_ur; i++){
 				urid_Arr[i] = urid_ArrLst.get(i);//【原因id】从ArrayList交给一般数组
+				
+				//根据Ursache_id找《Ursache》表中的Ursachebeschreibung
 				resultSet = statement.executeQuery("select Ursachebeschreibung from Ursache where Ursache_id = '"+urid_Arr[i]+"'");
+				int ni = i + 1;
+				String si = "" + ni;//用于在Ursache前加序号
+				urbesch_ArrLst_s.add(si + ". " + resultSet.getString("Ursachebeschreibung"));
 				urbesch_ArrLst.add(resultSet.getString("Ursachebeschreibung"));
+				resultSet.close();
 				urbesch_Arr[i] = urbesch_ArrLst.get(i);//【原因描述】从ArrayList交给一般数组
-	        	System.out.println("Ursache" + urid_Arr[i] + ": " + urbesch_Arr[i]);
+//	        	System.out.println("Ursache" + urid_Arr[i] + ": " + urbesch_Arr[i]);
+	        	
+	        	massbesch_ArrLst.add("zur Ursache" + si + " (" + urbesch_Arr[i] + "):");
+	        	
+	        	//根据措施描述找《Ursache》表中的Ursache_id
+//				resultSet = statement.executeQuery("select Ursache_id from Ursache where Ursachebeschreibung = '"+urbesch_Arr[i]+"'");
+//				String ursache_id = resultSet.getString("Ursache_id");
+//				resultSet.close();
+//				System.out.println("Ursache_id = " +ursache_id);
+				
+				//根据Ursache_idFe以及hlerart_id（以防措施出现重复）找《Zuordnung》表中的Massnahme_id
+	        	resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+urid_Arr[i]+"' and Fehlerart_id = '"+fehler_id+"'");
+//				resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+ursache_id+"' and Fehlerart_id = '"+fehler_id+"'");
+				ArrayList<String> massid_ArrLst = new ArrayList<String>();//用Arraylist建立动态数组用于接收db内容【措施id】
+				int n_mass = 0;//n_mass用来计数针对当下这个原因有多少个Massnahme
+				while (resultSet.next()){
+					massid_ArrLst.add(resultSet.getString("Massnahme_id"));
+					n_mass ++;
+				}
+				String[] massid_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList中的内容【措施id】
+				String[] massbesch_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList的内容【措施描述】
+		        for (int j = 0; j < n_mass; j++) {
+		        	int nj = j + 1;
+					String sj = "" + nj;//用于在Massnahme前加序号
+		        	massid_Arr[j] = massid_ArrLst.get(j);//【措施id】从ArrayList交给一般数组
+		        	resultSet = statement.executeQuery("select Massnahmebeschreibung from Massnahme where Massnahme_id = '"+massid_Arr[j]+"'");
+		        	massbesch_ArrLst.add(sj + ". " +resultSet.getString("Massnahmebeschreibung"));
+					massbesch_Arr[j] = massbesch_ArrLst.get(j);//【措施描述】从ArrayList交给一般数组
+//		        	System.out.println("Massnahme" + massid_Arr[j] + ": " + massbesch_Arr[j]);
+		        }
+		        massbesch_ArrLst.add("");
+		        System.out.println(massbesch_ArrLst);
 			}
 		}
 		catch(SQLException e){
@@ -453,73 +531,42 @@ public class InterfaceController {
 				System.err.println(e);// connection close failed.
 			}
 		}
-		return urbesch_ArrLst;
+		
+		switch(fNr){
+		case 1: massZuFehler1 = massbesch_ArrLst;break;
+		case 2: massZuFehler2 = massbesch_ArrLst;break;
+		case 3: massZuFehler3 = massbesch_ArrLst;break;
+		case 4: massZuFehler4 = massbesch_ArrLst;break;
+		case 5: massZuFehler5 = massbesch_ArrLst;break;
+		}
+		
+		return urbesch_ArrLst_s;
 	}
+
+///////////////////////////////////↑↑↑Datenbank↑↑↑///////////////////////////////////////////////
 	
-	public ObservableList<String> datenAnalyse_mass(String selectedUrsache) throws ClassNotFoundException {
-		Connection connection = null;
-		ResultSet resultSet = null;
-		Statement statement = null;
-		System.out.println(selectedUrsache + " is now passed into Datebank");
-		
-		ObservableList<String> massbesch_ArrLst = FXCollections.observableArrayList();
-		//用ObservableList建立动态数组用于接收DB内容【措施描述】，并向外传递
-		try {
-			Class.forName("org.sqlite.JDBC");
-			SQLiteConfig config = new SQLiteConfig(); 
-			config.enforceForeignKeys(true); 
-			connection = DriverManager.getConnection(DB_URL,config.toProperties());
-			statement = connection.createStatement();
-			
-			//根据措施描述找《Ursache》表中的Ursache_id
-			resultSet = statement.executeQuery("select Ursache_id from Ursache where Ursachebeschreibung = '"+selectedUrsache+"'");
-			String ursache_id = resultSet.getString("Ursache_id");
-			resultSet.close();
-			System.out.println("Ursache_id = " +ursache_id);
-			
-			//根据Ursache_id找《Zuordnung》表中的Massnahme_id
-			resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+ursache_id+"'");
-			ArrayList<String> massid_ArrLst = new ArrayList<String>();//用Arraylist建立动态数组用于接收db内容【措施id】
-			int n_mass = 0;//n_mass用来计数针对当下这个原因有多少个Massnahme
-			while (resultSet.next()){
-				massid_ArrLst.add(resultSet.getString("Massnahme_id"));
-				n_mass ++;
-			}
-			String[] massid_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList中的内容【措施id】
-			String[] massbesch_Arr = new String[n_mass];//建立1个长度为n_mass的一般数组，用于接收ArrayList的内容【措施描述】
-	        for (int j = 0; j < n_mass; j++) {
-	        	massid_Arr[j] = massid_ArrLst.get(j);//【措施id】从ArrayList交给一般数组
-	        	resultSet = statement.executeQuery("select Massnahmebeschreibung from Massnahme where Massnahme_id = '"+massid_Arr[j]+"'");
-	        	massbesch_ArrLst.add(resultSet.getString("Massnahmebeschreibung"));
-				massbesch_Arr[j] = massbesch_ArrLst.get(j);//【措施描述】从ArrayList交给一般数组
-	        	System.out.println("Massnahme" + massid_Arr[j] + ": " + massbesch_Arr[j]);
-	        }
-		}
-		catch(SQLException e){
-			System.err.println(e.getMessage());
-		}
-		finally{
-			try{
-				resultSet.close();
-				statement.close();
-				connection.close(); 
-			}
-			catch (Exception e){
-				System.err.println(e);// connection close failed.
-			}
-		}
-		
-		return massbesch_ArrLst;		
-	}
-///////////////////////////////////↑↑↑Datenbank↑↑↑///////////////////////////////////////////////		
 	@FXML
-	public void fehlerEdit(ActionEvent event) throws MWException, ClassNotFoundException{
-		ur_zu_Fehler1.getItems().clear();
-		mass_zu_Fehler1.getItems().clear();
-//		DialogFehlerController dialog = new DialogFehlerController();
-//		dialog.fehlerKorrigieren(fehlerart1);
-		MainApp.showDialogFeler(fehlerart1);
-		fehler1.setText(fehlerart1);
+	public void fehler_ReportInitial(){
+		fehler1.clear();
+		fehler2.clear();
+		fehler3.clear();
+		fehler4.clear();
+		fehler5.clear();
 	}
-	
+	@FXML
+	public void ursache_ReportInitial(){
+		ur_zu_Fehler1.getItems().clear();
+		ur_zu_Fehler2.getItems().clear();
+		ur_zu_Fehler3.getItems().clear();
+		ur_zu_Fehler4.getItems().clear();
+		ur_zu_Fehler5.getItems().clear();
+	}
+	@FXML
+	public void mass_ReportInitial(){
+		mass_zu_Fehler1.getItems().clear();
+		mass_zu_Fehler2.getItems().clear();
+		mass_zu_Fehler3.getItems().clear();
+		mass_zu_Fehler4.getItems().clear();
+		mass_zu_Fehler5.getItems().clear();
+	}
 }
