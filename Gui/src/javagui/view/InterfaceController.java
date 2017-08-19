@@ -75,41 +75,19 @@ public class InterfaceController {
 		File selectedDirectory = folderOpen.showDialog(null);
 		String folederPath = null;
 		if(selectedDirectory != null){
-			folederPath = selectedDirectory.getAbsolutePath();
+			folederPath = selectedDirectory.getAbsolutePath();//get path of the selected folder
 			txtFolderPath.setText(folederPath);
 		}
 		else{System.out.println("Kein Ordner!");}
-		tooltipFolderPath.setText(folederPath);
-		String filePathNameSet = "\\set.txt"; 
-		String filePathSet = folederPath + filePathNameSet;
-		//get path of set.txt(Einstellungen) in the selected folder
 		
-	
-		//read TXT file:
-/*        StringBuilder contents = new StringBuilder();
-        try {
-            BufferedReader input =  new BufferedReader(new FileReader("C:\\Users\\Administrator\\Desktop\\Beispiel\\Workpiece1\\set.txt"));
-            try {
-                String line = null;
-                while (( line = input.readLine()) != null) {
-                    contents.append(line);
-                    contents.append(System.getProperty("line.separator"));
-                }//end while
-            }//end try
-            finally {
-                input.close();
-            }
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        System.out.println(contents.toString());
-        String contents0 = contents.toString();
-        chargenNum.setText(contents0);
-**/
-
-//		String fileName = "C:\\Users\\Administrator\\Desktop\\Beispiel\\Workpiece1\\set.txt";
-		String fileName = filePathSet;
+		tooltipFolderPath.setText(folederPath);//[tool-tip] get path of selected folder
+		
+		String filePath_log_part = "\\log.txt"; 
+		
+		String filePath_log_full = folederPath + filePath_log_part;
+		//get path of log.txt(Einstellungen) in the selected folder
+		
+		String fileName = filePath_log_full;
 		//print all the Information in set.txt line by line:
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
 			String line;
