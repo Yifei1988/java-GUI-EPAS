@@ -16,6 +16,8 @@
 .tab-pane .tab:selected
 {
     -fx-background-color: #3c3c3c;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 

@@ -14,7 +14,7 @@ public class InterfaceController {
 	private Button btnFolderOpen;
 	
 	@FXML
-	private TextField txtFolderPath;
+	private Label txtFolderPath;
 	
 	@FXML
 	private Tooltip tooltipFolderPath;

@@ -11,7 +11,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -29,12 +28,12 @@
          <children>
             <TabPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../bin/javagui/view/tabheader.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <tabs>
-                  <Tab style="-fx-pref-height: 40px; -fx-font-size: 18px; -fx-background-insets: 0 2 0 2,0,0; -fx-background-radius: 8 8 0 0; -fx-border-width: 2 2 0 2; -fx-border-color: #3c3c3c; -fx-border-radius: 8 8 0 0;" text="Monitor">
+                  <Tab style="-fx-pref-height: 40px; -fx-font-size: 18px; -fx-background-insets: 0 2 0 2,0,0; -fx-background-radius: 8 30 0 0; -fx-border-width: 2 2 0 2; -fx-border-color: #3c3c3c; -fx-border-radius: 8 30 0 0;" text="Monitor">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #3c3c3c;" />
                      </content>
                   </Tab>
-                  <Tab style="-fx-pref-height: 40px; -fx-font-size: 18px; -fx-background-insets: 0 2 0 2,0,0; -fx-background-radius: 8 8 0 0; -fx-border-width: 2 2 0 2; -fx-border-color: #3c3c3c; -fx-border-radius: 8 8 0 0;" text="Analyse">
+                  <Tab style="-fx-pref-height: 40px; -fx-font-size: 18px; -fx-background-insets: 0 2 0 2,0,0; -fx-background-radius: 8 30 0 0; -fx-border-width: 2 2 0 2; -fx-border-color: #3c3c3c; -fx-border-radius: 8 30 0 0;" text="Analyse">
                      <content>
                         <AnchorPane minHeight="180.0" minWidth="200.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #3c3c3c;">
                            <children>
@@ -48,7 +47,7 @@
                                                 <Font size="20.0" />
                                              </font>
                                           </Label>
-                                          <GridPane gridLinesVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+                                          <GridPane gridLinesVisible="true" style="-fx-grid-lines-color: #04B4AE;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
                                              <columnConstraints>
                                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="221.0" />
                                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="132.0" minWidth="10.0" prefWidth="44.0" />
@@ -252,7 +251,10 @@
                                                       </ImageView>
                                                    </graphic>
                                                 </Button>
-                                                <TextField fx:id="txtFolderPath" prefHeight="42.0" promptText="Please select a Folder!" HBox.hgrow="ALWAYS">
+                                                <Label fx:id="txtFolderPath" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="247.0" style="-fx-background-color: white; -fx-background-radius: 6 6 6 6;" text="Please select a Folder!">
+                                                   <font>
+                                                      <Font size="18.0" />
+                                                   </font>
                                                    <tooltip>
                                                       <Tooltip fx:id="tooltipFolderPath" text="You will see here the full path of Folder">
                                                          <font>
@@ -260,10 +262,7 @@
                                                          </font>
                                                       </Tooltip>
                                                    </tooltip>
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </TextField>
+                                                </Label>
                                              </children>
                                           </HBox>
                                        </children>
@@ -274,15 +273,15 @@
                                  <items>
                                     <AnchorPane minWidth="310.0" prefHeight="510.0" prefWidth="310.0">
                                        <children>
-                                          <AnchorPane prefHeight="50.0" AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="0.0">
+                                          <AnchorPane prefHeight="50.0" style="-fx-border-color: #04B4AE; -fx-border-radius: 6 6 6 6; -fx-border-width: 2;" AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="1.0">
                                              <children>
-                                                <HBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Label alignment="CENTER" prefHeight="30.0" text="Fläche-Nr.:" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="0.0">
+                                                   <font>
+                                                      <Font size="24.0" />
+                                                   </font>
+                                                </Label>
+                                                <HBox alignment="CENTER" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <Label alignment="CENTER" prefHeight="30.0" text="Fläche-Nr.:" textFill="#04b4ae">
-                                                         <font>
-                                                            <Font size="24.0" />
-                                                         </font>
-                                                      </Label>
                                                       <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="25.0" text="1">
                                                          <font>
                                                             <Font size="18.0" />
@@ -578,14 +577,14 @@
                                                 </VBox>
                                              </children>
                                           </AnchorPane>
-                                          <HBox alignment="CENTER" layoutX="73.0" layoutY="8.0" spacing="20.0" AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="2.0">
+                                          <AnchorPane AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="2.0">
                                              <children>
-                                                <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" style="-fx-background-radius: 8 8 8 8;" text="Klassifizieren">
+                                                <Button alignment="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="240.0" style="-fx-background-radius: 8 8 8 8;" text="Klassifizieren" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
                                                 </Button>
-                                                <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
+                                                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="260.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="16.0" />
                                                    </font>
@@ -598,7 +597,7 @@
                                                    </graphic>
                                                 </Button>
                                              </children>
-                                          </HBox>
+                                          </AnchorPane>
                                        </children>
                                     </AnchorPane>
                                  </items>
