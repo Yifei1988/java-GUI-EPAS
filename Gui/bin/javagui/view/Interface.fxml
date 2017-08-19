@@ -424,7 +424,7 @@
                                                                   <TextField fx:id="fehler5" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="9">
                                                                      <children>
-                                                                        <Button fx:id="btnJa" disable="true" mnemonicParsing="false" onAction="#datenAnalyseAction" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#0c751f" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="6.0">
+                                                                        <Button fx:id="btnJa" disable="true" mnemonicParsing="false" onAction="#datenAnalyseAction" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="6.0">
                                                                            <graphic>
                                                                               <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                                                                  <image>
@@ -432,7 +432,7 @@
                                                                                  </image>
                                                                               </ImageView>
                                                                            </graphic></Button>
-                                                                        <Button fx:id="btnNein" disable="true" mnemonicParsing="false" onAction="#fehlerEdit" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#ae1919" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="6.0">
+                                                                        <Button fx:id="btnNein" disable="true" mnemonicParsing="false" onAction="#fehlerEdit" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="6.0">
                                                                            <graphic>
                                                                               <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                                                                  <image>
@@ -604,7 +604,7 @@
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#0c751f" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0">
+                                                                        <Button fx:id="btnJaUnten" disable="true" mnemonicParsing="false" onAction="#saveToText" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0">
                                                                            <graphic>
                                                                               <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                                                                  <image>
@@ -616,7 +616,7 @@
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#ae1919" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0">
+                                                                        <Button fx:id="btnNeinUnten" disable="true" mnemonicParsing="false" onAction="#massnahmeChange" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0">
                                                                            <graphic>
                                                                               <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                                                                                  <image>

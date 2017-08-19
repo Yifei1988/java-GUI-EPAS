@@ -63,6 +63,10 @@ public class InterfaceController {
 	private Button btnJa;//for Analysis of Fehlerdaten with Datenbank	
 	@FXML
 	private Button btnNein;//for change Fehlerat
+	@FXML
+	private Button btnJaUnten;//for save	
+	@FXML
+	private Button btnNeinUnten;//for change Massnahme
 	
 	@FXML
 	private Label txtFolderPath;
@@ -158,6 +162,12 @@ public class InterfaceController {
 	public static ObservableList<String> massZuFehler4 = null;
 	public static ObservableList<String> massZuFehler5 = null;
 	
+	public static ObservableList<String> massZuFehler1Dialog = null;//专为DialogMassnahme而设
+	public static ObservableList<String> massZuFehler2Dialog = null;
+	public static ObservableList<String> massZuFehler3Dialog = null;
+	public static ObservableList<String> massZuFehler4Dialog = null;
+	public static ObservableList<String> massZuFehler5Dialog = null;
+	
 	public static String Folder_URL = "C:\\Users\\Administrator\\Desktop\\Beispiel";
 	public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
 	
@@ -173,8 +183,10 @@ public class InterfaceController {
 			txtFolderPath.setText(folederPath);
 			
 			lineChartInitial();//the linechart cleared after open a new Folder
-			btnJa.setDisable(true);//在klassifikation使用之前不得使用数据库功能
-			btnNein.setDisable(true);
+//			btnJa.setDisable(true);//在klassifikation使用之前不得使用数据库及衍生功能
+//			btnNein.setDisable(true);
+//			btnJaUnten.setDisable(true);
+//			btnNeinUnten.setDisable(true);
 			stringForReportInitial();
 			fehler_ReportInitial();
 			ursache_ReportInitial();
@@ -377,6 +389,9 @@ public class InterfaceController {
 		fehler3.setText(fehlerart3);
 		fehler4.setText(fehlerart4);
 		fehler5.setText(fehlerart5);
+		
+		btnJaUnten.setDisable(true);
+		btnNeinUnten.setDisable(true);
 	}
 	
 	@FXML//work with SQLite-Datenbanke!!!!!!!!!!!!!!!!!!!!
@@ -422,6 +437,9 @@ public class InterfaceController {
 			mass_zu_Fehler5.setItems(massZuFehler5);
 			mass_zu_Fehler5.getSelectionModel().selectFirst();
 		}
+		
+		btnJaUnten.setDisable(false);//执行数据库分析后可以使用下方的Ja和Nein按钮用于保存和更改Massnahme
+		btnNeinUnten.setDisable(false);
 	}//end of FehlerAnalyse
 
 ///////////////////////////////////↓↓↓Datenbank↓↓↓///////////////////////////////////////////////	
@@ -437,6 +455,8 @@ public class InterfaceController {
 		//同上，尾标的s是表示用于存储加序号的版本，用于最终的返回值
 		
 		ObservableList<String> massbesch_ArrLst = FXCollections.observableArrayList();
+		ObservableList<String> massbesch_ArrLst_Dialog = FXCollections.observableArrayList();
+		//专为后面DialogMassnahme的显示处理所添加的变量
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -486,6 +506,7 @@ public class InterfaceController {
 //	        	System.out.println("Ursache" + urid_Arr[i] + ": " + urbesch_Arr[i]);
 	        	
 	        	massbesch_ArrLst.add("zur Ursache" + si + " (" + urbesch_Arr[i] + "):");
+	        	massbesch_ArrLst_Dialog.add("zur Ursache" + si + " (" + urbesch_Arr[i] + "):" + "LessIsMore");
 	        	
 	        	//根据措施描述找《Ursache》表中的Ursache_id
 //				resultSet = statement.executeQuery("select Ursache_id from Ursache where Ursachebeschreibung = '"+urbesch_Arr[i]+"'");
@@ -495,7 +516,7 @@ public class InterfaceController {
 				
 				//根据Ursache_idFe以及hlerart_id（以防措施出现重复）找《Zuordnung》表中的Massnahme_id
 	        	resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+urid_Arr[i]+"' and Fehlerart_id = '"+fehler_id+"'");
-//				resultSet = statement.executeQuery("select Massnahme_id from Zuordnung where Ursache_id = '"+ursache_id+"' and Fehlerart_id = '"+fehler_id+"'");
+
 				ArrayList<String> massid_ArrLst = new ArrayList<String>();//用Arraylist建立动态数组用于接收db内容【措施id】
 				int n_mass = 0;//n_mass用来计数针对当下这个原因有多少个Massnahme
 				while (resultSet.next()){
@@ -510,11 +531,12 @@ public class InterfaceController {
 		        	massid_Arr[j] = massid_ArrLst.get(j);//【措施id】从ArrayList交给一般数组
 		        	resultSet = statement.executeQuery("select Massnahmebeschreibung from Massnahme where Massnahme_id = '"+massid_Arr[j]+"'");
 		        	massbesch_ArrLst.add(sj + ". " +resultSet.getString("Massnahmebeschreibung"));
+		        	massbesch_ArrLst_Dialog.add(sj + ". " +resultSet.getString("Massnahmebeschreibung") + "LessIsMore");
 					massbesch_Arr[j] = massbesch_ArrLst.get(j);//【措施描述】从ArrayList交给一般数组
-//		        	System.out.println("Massnahme" + massid_Arr[j] + ": " + massbesch_Arr[j]);
 		        }
-		        massbesch_ArrLst.add("");
-		        System.out.println(massbesch_ArrLst);
+		        massbesch_ArrLst.add(" ");
+		        massbesch_ArrLst_Dialog.add(" " + "LessIsMore");
+		        //此处及上面那些添加的字母串"LessIsMore"是为了后面DialogMassnahme中显示处理方便而添加的
 			}
 		}
 		catch(SQLException e){
@@ -533,17 +555,46 @@ public class InterfaceController {
 		}
 		
 		switch(fNr){
-		case 1: massZuFehler1 = massbesch_ArrLst;break;
-		case 2: massZuFehler2 = massbesch_ArrLst;break;
-		case 3: massZuFehler3 = massbesch_ArrLst;break;
-		case 4: massZuFehler4 = massbesch_ArrLst;break;
-		case 5: massZuFehler5 = massbesch_ArrLst;break;
+		case 1:{
+			massZuFehler1 = massbesch_ArrLst;
+			massZuFehler1Dialog = massbesch_ArrLst_Dialog;
+			break;
+			}
+		case 2:{
+			massZuFehler2 = massbesch_ArrLst;
+			massZuFehler2Dialog = massbesch_ArrLst_Dialog;
+			break;
+			}
+		case 3:{
+			massZuFehler3 = massbesch_ArrLst;
+			massZuFehler3Dialog = massbesch_ArrLst_Dialog;
+			break;
+			}
+		case 4:{
+			massZuFehler4 = massbesch_ArrLst;
+			massZuFehler4Dialog = massbesch_ArrLst_Dialog;
+			break;
+			}
+		case 5:{
+			massZuFehler5 = massbesch_ArrLst;
+			massZuFehler5Dialog = massbesch_ArrLst_Dialog;
+			break;
+			}
 		}
 		
 		return urbesch_ArrLst_s;
 	}
 
 ///////////////////////////////////↑↑↑Datenbank↑↑↑///////////////////////////////////////////////
+	@FXML
+	public void massnahmeChange(ActionEvent event){//btnNeinUnten的功能
+		DialogMassnahme dm = new DialogMassnahme();
+		dm.showAndWait();
+	}
+	@FXML
+	public void saveToText(ActionEvent event){//btnJaUnten的功能
+		System.out.println(massZuFehler1);
+	}
 	
 	@FXML
 	public void fehler_ReportInitial(){
