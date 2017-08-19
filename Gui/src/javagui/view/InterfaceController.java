@@ -150,6 +150,8 @@ public class InterfaceController {
 	
 	public static String folederPath = null;//folederPath can be used everywhere in this class
 	
+	public static int faceSeNum = 0;//默认设定面序号为0
+	
 	public static String fehlerart1 = null;//create static variables to pass values from Classify to FehlerAnalyse
 	public static String fehlerart2 = null;
 	public static String fehlerart3 = null;
@@ -167,6 +169,12 @@ public class InterfaceController {
 	public static ObservableList<String> massZuFehler3Dialog = null;
 	public static ObservableList<String> massZuFehler4Dialog = null;
 	public static ObservableList<String> massZuFehler5Dialog = null;
+	
+	public static String massVorschlagFace1 = null;//用于DialogMassnahme和保存text文档
+	public static String massVorschlagFace2 = null;
+	public static String massVorschlagFace3 = null;
+	public static String massVorschlagFace4 = null;
+	public static String massVorschlagFace5 = null;
 	
 	public static String Folder_URL = "C:\\Users\\Administrator\\Desktop\\Beispiel";
 	public static String DB_URL = "jdbc:sqlite:C:\\Users\\Administrator\\Desktop\\Beispiel\\epasSTUDI.db";
@@ -187,6 +195,11 @@ public class InterfaceController {
 //			btnNein.setDisable(true);
 //			btnJaUnten.setDisable(true);
 //			btnNeinUnten.setDisable(true);
+			btnFace1.setSelected(false);
+			btnFace2.setSelected(false);
+			btnFace3.setSelected(false);
+			btnFace4.setSelected(false);
+			btnFace5.setSelected(false);
 			stringForReportInitial();
 			fehler_ReportInitial();
 			ursache_ReportInitial();
@@ -250,22 +263,27 @@ public class InterfaceController {
 	public void switchFaceAction1(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f1.txt");
+		faceSeNum = 1;
 	}
 	public void switchFaceAction2(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f2.txt");
+		faceSeNum = 2;
 	}
 	public void switchFaceAction3(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f3.txt");
+		faceSeNum = 3;
 	}
 	public void switchFaceAction4(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f4.txt");
+		faceSeNum = 4;
 	}
 	public void switchFaceAction5(ActionEvent event){
 		stringForReportInitial();
 		switchFace("_f5.txt");
+		faceSeNum = 5;
 	}
 	
 	public void switchFace(String filePath_part){
@@ -339,6 +357,8 @@ public class InterfaceController {
 	}
 	
 	public void stringForReportInitial(){
+		faceSeNum = 0;
+		
 		fehlerart1 = null;
 		fehlerart2 = null;
 		fehlerart3 = null;
@@ -350,11 +370,17 @@ public class InterfaceController {
 		massZuFehler3 = null;
 		massZuFehler4 = null;
 		massZuFehler5 = null;
+		
+		massZuFehler1Dialog = null;
+		massZuFehler2Dialog = null;
+		massZuFehler3Dialog = null;
+		massZuFehler4Dialog = null;
+		massZuFehler5Dialog = null;
 	}
 	
 	@FXML//work with Matlab-Programm!!!!!!!!!!!!!!!!!!!!
 	public void klassifikationAction(ActionEvent event) throws MWException{
-		fehler_ReportInitial();
+		fehler_ReportInitial();//清空报告栏
 		ursache_ReportInitial();
 		mass_ReportInitial();
 		stringForReportInitial();
@@ -535,7 +561,7 @@ public class InterfaceController {
 					massbesch_Arr[j] = massbesch_ArrLst.get(j);//【措施描述】从ArrayList交给一般数组
 		        }
 		        massbesch_ArrLst.add(" ");
-		        massbesch_ArrLst_Dialog.add(" " + "LessIsMore");
+		        massbesch_ArrLst_Dialog.add(" " + "LessIsMore" + "Xiong");
 		        //此处及上面那些添加的字母串"LessIsMore"是为了后面DialogMassnahme中显示处理方便而添加的
 			}
 		}
