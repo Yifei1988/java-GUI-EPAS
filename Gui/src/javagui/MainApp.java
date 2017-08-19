@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javagui.view.DialogFehlerController;
 
 public class MainApp extends Application {
 
@@ -64,7 +65,7 @@ public class MainApp extends Application {
         }
     }
     
-    public static void showDialogFeler() {
+    public static void showDialogFeler(String fehlerart) {
         try {
             // Load the fxml file and create a new stage for the dialog-fehler.
             FXMLLoader loader = new FXMLLoader();
@@ -80,12 +81,16 @@ public class MainApp extends Application {
             dialogStage.setScene(scene);
             dialogStage.setResizable(false);
 
-            // Set the person into the controller.
-           //// DialogFehlerController controller = loader.getController();
+            // Set the fehlerart into the controller.
+            DialogFehlerController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.fehlerKorrigieren(fehlerart);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
-        } catch (IOException e){e.printStackTrace();}
+        } catch (IOException e){e.printStackTrace();} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
     }
 
     /**

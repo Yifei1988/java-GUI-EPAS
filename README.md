@@ -6,7 +6,15 @@ IDE: Eclipse
 language: java, javafx, fxml  
 database: SQLite
 
+my library:
+Klss2: simple matlab function
+
+external libraries:  
+javabuilder: api for matlab function  
+sqlite-jdbc: api for sqlite-database
+
  ![ui](READMEpic/ui.png)
+ ![db](READMEpic/sql-schema.png)
 
 /Beispiel is used for testing.
 
