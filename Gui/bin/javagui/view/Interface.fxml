@@ -241,7 +241,7 @@
                                        <children>
                                           <HBox prefHeight="42.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP">
+                                                <Button fx:id="btnFolderOpen" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openFolderAction" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" stylesheets="@../../../bin/javagui/view/button_click.css" textOverrun="CLIP">
                                                    <font>
                                                       <Font name="System Bold" size="16.0" />
                                                    </font>
@@ -362,7 +362,7 @@
                                              <children>
                                                 <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <children>
-                                                      <AnchorPane VBox.vgrow="ALWAYS">
+                                                      <AnchorPane stylesheets="@../../../bin/javagui/view/button_click.css" VBox.vgrow="ALWAYS">
                                                          <children>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="14.0" prefHeight="20.0" text="Fehler" textAlignment="CENTER" underline="true" AnchorPane.leftAnchor="115.0" AnchorPane.rightAnchor="115.0" AnchorPane.topAnchor="0.0">
                                                                <font>
@@ -424,8 +424,22 @@
                                                                   <TextField fx:id="fehler5" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="9">
                                                                      <children>
-                                                                        <Button fx:id="btnJa" disable="true" mnemonicParsing="false" onAction="#datenAnalyseAction" text="Ja" textFill="#0c751f" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0" />
-                                                                        <Button fx:id="btnNein" disable="true" mnemonicParsing="false" onAction="#fehlerEdit" text="Nein!" textFill="#ae1919" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0" />
+                                                                        <Button fx:id="btnJa" disable="true" mnemonicParsing="false" onAction="#datenAnalyseAction" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#0c751f" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="6.0">
+                                                                           <graphic>
+                                                                              <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                                                                 <image>
+                                                                                    <Image url="@../../../resources/images/button_Ja.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </graphic></Button>
+                                                                        <Button fx:id="btnNein" disable="true" mnemonicParsing="false" onAction="#fehlerEdit" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#ae1919" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="6.0">
+                                                                           <graphic>
+                                                                              <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                                                                 <image>
+                                                                                    <Image url="@../../../resources/images/button_Nein.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </graphic></Button>
                                                                      </children>
                                                                   </AnchorPane>
                                                                </children>
@@ -512,7 +526,7 @@
                                                             </GridPane>
                                                          </children>
                                                       </AnchorPane>
-                                                      <AnchorPane VBox.vgrow="ALWAYS">
+                                                      <AnchorPane stylesheets="@../../../bin/javagui/view/button_click.css" VBox.vgrow="ALWAYS">
                                                          <children>
                                                             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="43.0" layoutY="7.0" prefHeight="20.0" text="Massnahme" textAlignment="CENTER" underline="true" AnchorPane.leftAnchor="90.0" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="0.0">
                                                                <font>
@@ -590,12 +604,26 @@
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" text="Ja" textFill="#0c751f" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" />
+                                                                        <Button mnemonicParsing="false" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#0c751f" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0">
+                                                                           <graphic>
+                                                                              <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                                                                 <image>
+                                                                                    <Image url="@../../../resources/images/button_Ja.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </graphic></Button>
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" text="Nein!" textFill="#ae1919" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" />
+                                                                        <Button mnemonicParsing="false" style="-fx-border-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textFill="#ae1919" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0">
+                                                                           <graphic>
+                                                                              <ImageView fitHeight="20.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                                                                                 <image>
+                                                                                    <Image url="@../../../resources/images/button_Nein.png" />
+                                                                                 </image>
+                                                                              </ImageView>
+                                                                           </graphic></Button>
                                                                      </children>
                                                                   </AnchorPane>
                                                                </children>
@@ -606,14 +634,14 @@
                                                 </VBox>
                                              </children>
                                           </AnchorPane>
-                                          <AnchorPane AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="2.0">
+                                          <AnchorPane stylesheets="@../../../bin/javagui/view/button_click.css" AnchorPane.leftAnchor="2.5" AnchorPane.rightAnchor="2.5" AnchorPane.topAnchor="2.0">
                                              <children>
                                                 <Button fx:id="btnKlssifi" alignment="CENTER" mnemonicParsing="false" onAction="#klassifikationAction" prefHeight="45.0" prefWidth="240.0" style="-fx-background-radius: 8 8 8 8;" text="Klassifizieren" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="24.0" />
                                                    </font>
                                                 </Button>
-                                                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="260.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-background-color: white; -fx-padding: 0 0 0 0;" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <Button alignment="CENTER" contentDisplay="CENTER" layoutX="260.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" style="-fx-border-radius: 8 8 8 8; -fx-background-radius: 8 8 8 8; -fx-padding: 0 0 0 0;" textOverrun="CLIP" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <font>
                                                       <Font size="16.0" />
                                                    </font>
