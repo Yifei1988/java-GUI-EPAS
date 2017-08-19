@@ -8,6 +8,8 @@ database: SQLite
 
  ![ui](READMEpic/ui.png)
 
+/Beispiel is used for testing.
+
 
 
 
