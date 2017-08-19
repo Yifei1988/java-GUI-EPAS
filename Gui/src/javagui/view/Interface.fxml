@@ -24,7 +24,7 @@
 
 <AnchorPane minHeight="600.0" minWidth="1000.0" prefHeight="630.0" prefWidth="1040.0" style="-fx-background-color: #e6e6e6;" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javagui.view.InterfaceController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
             <TabPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../../../bin/javagui/view/tabheader.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <tabs>
@@ -416,7 +416,7 @@
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="9">
                                                                      <children>
                                                                         <Button mnemonicParsing="false" text="Ja" textFill="#0c751f" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0" />
-                                                                        <Button mnemonicParsing="false" text="Nein!" textFill="#ae1919" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0" />
+                                                                        <Button fx:id="btnNein" mnemonicParsing="false" onAction="#fehlerRedefine" text="Nein!" textFill="#ae1919" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                </children>
@@ -433,28 +433,28 @@
                                                             </Label>
                                                             <Separator layoutX="14.0" layoutY="168.0" prefHeight="6.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
                                                             <GridPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
-                                                               <columnConstraints>
-                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="80.0" prefWidth="105.0" />
-                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="168.0" minWidth="133.0" prefWidth="168.0" />
-                                                               </columnConstraints>
-                                                               <rowConstraints>
+                                                              <columnConstraints>
+                                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
+                                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                              </columnConstraints>
+                                                              <rowConstraints>
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
+                                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
-                                                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                               </rowConstraints>
+                                                              </rowConstraints>
                                                                <children>
-                                                                  <Label prefHeight="20.0" prefWidth="111.0" text="zur Fehler 1:">
+                                                                  <Label text="zur Fehler 1:">
                                                                      <font>
                                                                         <Font size="16.0" />
                                                                      </font>
                                                                   </Label>
-                                                                  <Label prefWidth="127.0" text="zur Fehler 2:" GridPane.rowIndex="2">
+                                                                  <Label text="zur Fehler 2:" GridPane.rowIndex="2">
                                                                      <font>
                                                                         <Font size="16.0" />
                                                                      </font>
@@ -476,27 +476,27 @@
                                                                   </Label>
                                                                   <AnchorPane GridPane.columnIndex="1">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="18.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="6">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="8">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                </children>
@@ -512,8 +512,8 @@
                                                             </Label>
                                                             <GridPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="30.0">
                                                                <columnConstraints>
-                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="80.0" prefWidth="106.0" />
-                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="167.0" minWidth="128.0" prefWidth="167.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" />
+                                                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                                </columnConstraints>
                                                                <rowConstraints>
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -525,6 +525,7 @@
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                                  <RowConstraints maxHeight="3.0" minHeight="3.0" prefHeight="3.0" vgrow="SOMETIMES" />
                                                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                                                </rowConstraints>
                                                                <children>
@@ -533,7 +534,7 @@
                                                                         <Font size="16.0" />
                                                                      </font>
                                                                   </Label>
-                                                                  <Label prefWidth="127.0" text="zur Fehler 2:" GridPane.rowIndex="2">
+                                                                  <Label text="zur Fehler 2:" GridPane.rowIndex="2">
                                                                      <font>
                                                                         <Font size="16.0" />
                                                                      </font>
@@ -555,37 +556,37 @@
                                                                   </Label>
                                                                   <AnchorPane GridPane.columnIndex="1">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="18.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="4">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="6">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                   <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="8">
                                                                      <children>
-                                                                        <ChoiceBox layoutX="40.0" layoutY="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ChoiceBox prefHeight="23.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
-                                                                  <AnchorPane prefHeight="28.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                                                                  <AnchorPane GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" text="Nein!" textFill="#ae1919" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="5.0" />
+                                                                        <Button mnemonicParsing="false" text="Ja" textFill="#0c751f" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="65.0" />
                                                                      </children>
                                                                   </AnchorPane>
-                                                                  <AnchorPane GridPane.rowIndex="9">
+                                                                  <AnchorPane GridPane.columnIndex="1" GridPane.rowIndex="10">
                                                                      <children>
-                                                                        <Button mnemonicParsing="false" text="Ja" textFill="#0c751f" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0" />
+                                                                        <Button mnemonicParsing="false" text="Nein!" textFill="#ae1919" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="40.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                </children>

@@ -13,7 +13,7 @@ import javafx.stage.DirectoryChooser;
 
 import com.mathworks.toolbox.javabuilder.*;//connection from matlab to java
 import Klss2.BKlss2;//bring Klassifikation-Function of Matlab into java
-
+import javagui.MainApp;
 import javagui.controller.CustomOutputStream;
 
 public class InterfaceController {
@@ -37,6 +37,9 @@ public class InterfaceController {
 	
 	@FXML
 	private Button btnFace5;
+	
+	@FXML
+	private Button btnNein;
 	
 	@FXML
 	private Label txtFolderPath;
@@ -96,13 +99,13 @@ public class InterfaceController {
 	private TextField fehler1;
 	
 	@FXML
-	private LineChart lineChartTp;
+	private LineChart<Number, Number> lineChartTp;
 	
 	@FXML
-	private LineChart lineChartFq;
+	private LineChart<Number, Number> lineChartFq;
 	
 	@FXML
-	private LineChart lineChartPw;
+	private LineChart<Number, Number> lineChartPw;
 	
 	static String folederPath = null;//folederPath can be used everywhere in this class
 	
@@ -266,7 +269,7 @@ public class InterfaceController {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		Long endTime = System.currentTimeMillis();
-		System.out.println("程序运行时间： "+(endTime - startTime)+"ns"); 
+		System.out.println("Loadtime: "+(endTime - startTime)+"ms"); 
 	}
 	
 
@@ -291,6 +294,11 @@ public class InterfaceController {
 			}//end while
 			lineChartPw.getData().add(series);
 		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	@FXML
+	public void fehlerRedefine(ActionEvent event) throws MWException{
+		MainApp.showDialogFeler();
 	}
 	
 }
