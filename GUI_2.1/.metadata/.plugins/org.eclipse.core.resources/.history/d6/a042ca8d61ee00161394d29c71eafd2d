@@ -1,0 +1,391 @@
+package javagui.view;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBoxTreeItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.CheckBoxTreeCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+public class DialogMassnahme extends Stage {
+	public static ArrayList<String> massVorschlag = new ArrayList<String>();;
+
+	private static String F1[][];
+	private static String F2[][];
+	private static String F3[][];
+	private static String F4[][];
+	private static String F5[][];
+
+	private static TreeView<String> tree1;
+	private static TreeView<String> tree2;
+	private static TreeView<String> tree3;
+	private static TreeView<String> tree4;
+	private static TreeView<String> tree5;
+	
+//	public static ObservableList<String> massVorschlag = null;
+
+	public DialogMassnahme() {// constructor：令方法名与类名一致，就可以直接在别的类调用此类此方法（还需查资料）
+		VBox vb = new VBox();
+
+		Label labelTop = new Label();
+		labelTop.setText(" Bestaetigen Sie bitte zutrefende Massnahme(n):");
+		labelTop.setFont(new Font(20));
+
+		Separator separline = new Separator();// 添加一条分隔线
+		separline.setStyle("-fx-background-color: Black;");
+
+		Label labelBlank = new Label();// 添加一个空白标签用于空行
+
+		vb.getChildren().add(labelTop);
+		vb.getChildren().add(separline);
+		vb.getChildren().add(labelBlank);
+
+		if (InterfaceController.fehlerart1 != null) {
+			// TreeView<String> tree;
+			tree1 = observablelistToTree(1, InterfaceController.fehlerart1, InterfaceController.massZuFehler1Dialog);
+			vb.getChildren().add(allInVBox(tree1));
+		}
+		if (InterfaceController.fehlerart2 != null) {
+			// TreeView<String> tree;
+			tree2 = observablelistToTree(2, InterfaceController.fehlerart2, InterfaceController.massZuFehler2Dialog);
+			vb.getChildren().add(allInVBox(tree2));
+		}
+		if (InterfaceController.fehlerart3 != null) {
+			// TreeView<String> tree;
+			tree3 = observablelistToTree(3, InterfaceController.fehlerart3, InterfaceController.massZuFehler3Dialog);
+			vb.getChildren().add(allInVBox(tree3));
+		}
+		if (InterfaceController.fehlerart4 != null) {
+			// TreeView<String> tree;
+			tree4 = observablelistToTree(4, InterfaceController.fehlerart4, InterfaceController.massZuFehler4Dialog);
+			vb.getChildren().add(allInVBox(tree4));
+		}
+		if (InterfaceController.fehlerart5 != null) {
+			// TreeView<String> tree;
+			tree5 = observablelistToTree(5, InterfaceController.fehlerart5, InterfaceController.massZuFehler5Dialog);
+			vb.getChildren().add(allInVBox(tree5));
+		}
+
+		// 设置DialogMassnahme里Ja按钮的图片
+		File url_Ja = new File("resources/images/button_Ja.png");
+		Image imageJa = new Image(url_Ja.toURI().toString());
+		ImageView imageViewJa = new ImageView(imageJa);
+		imageViewJa.setFitHeight(20);
+		imageViewJa.setFitWidth(45);
+
+		// 设置DialogMassnahme里Nein按钮的图片
+		File url_Nein = new File("resources/images/button_Nein.png");
+		Image imageNein = new Image(url_Nein.toURI().toString());
+		ImageView imageViewNein = new ImageView(imageNein);
+		imageViewNein.setFitHeight(20);
+		imageViewNein.setFitWidth(45);
+
+		Button btnJa = new Button("", imageViewJa);
+		Button btnNein = new Button("", imageViewNein);
+
+		btnJa.setOnAction(new EventHandler<ActionEvent>() {// 赋值massZuFehlerVorschlag并关闭DialogMassnahme
+			@Override
+			public void handle(ActionEvent event) {
+				if (InterfaceController.fehlerart1 != null) {
+					getInfoToString(tree1);
+					
+				}
+				if (InterfaceController.fehlerart2 != null) {
+					getInfoToString(tree2);
+					
+				}
+				if (InterfaceController.fehlerart3 != null) {
+					getInfoToString(tree3);
+				
+				}
+				if (InterfaceController.fehlerart4 != null) {
+					getInfoToString(tree4);
+					
+				}
+				if (InterfaceController.fehlerart5 != null) {
+					getInfoToString(tree5);
+					
+				}
+
+				System.out.println(massVorschlag);
+				String s = massVorschlag.toString();//有没有与另一处操作合并的可能????
+				s = s.replace("[", "");// 把ArrayList转换为字符串时系统自动添加的[符号去除
+				s = s.replace("]", "");// 把ArrayList转换为字符串时系统自动添加的]符号去除
+				String[] arrayMV = s.split("Yifei, ");
+				arrayMV[arrayMV.length - 1] = arrayMV[arrayMV.length - 1].replace("Yifei", "");
+				InterfaceController.massVorschlagForTxt = new String[arrayMV.length];//确定数组长度并实例化
+				for(int i=0; i<arrayMV.length;i++){
+					InterfaceController.massVorschlagForTxt[i] = arrayMV[i];
+				//	System.out.println(arrayMV[i]);
+				}
+				
+				close();
+			}
+		});
+
+		btnNein.setOnAction(new EventHandler<ActionEvent>() {// 关闭DialogMassnahme
+			@Override
+			public void handle(ActionEvent event) {
+				close();
+			}
+		});
+
+		Label lb = new Label("  ");// 用一个空白Label来间隔开Ja和Nein两个按钮
+		lb.setVisible(false);
+		HBox hb = new HBox(btnJa, lb, btnNein);
+		hb.setAlignment(Pos.CENTER_RIGHT);// 将HBox改为右对齐
+		vb.getChildren().add(hb);
+
+		AnchorPane ap = new AnchorPane(vb);// 将总的VBox装入定位面板便于下面定位留白
+		AnchorPane.setTopAnchor(vb, 0.0);
+		AnchorPane.setLeftAnchor(vb, 10.0);// 给左侧留白
+		AnchorPane.setRightAnchor(vb, 15.0);// 给右侧留白
+		AnchorPane.setBottomAnchor(vb, 10.0);// 给底边留白
+
+		ScrollPane sc = new ScrollPane(ap);// 将上面的定位面板装入拖动条面板中
+		ap.setStyle("-fx-background-color:#A9D0F5;");
+
+		sc.setFitToHeight(true);
+
+		sc.getStylesheets().add("@../../../bin/javagui/view/dialog_mass.css");// 加载TreeView和ScrollBar的CSS文件
+		sc.setStyle("-fx-background-color:#A9D0F5;"
+				+ "-fx-background-radius: 10 10 10 10;"
+				+ "-fx-border-color: white;"
+				+ "-fx-border-radius: 10 10 10 10;" 
+				+ "-fx-border-width: 5;");
+
+		Scene scene = new Scene(sc, 690, 670);
+
+		this.setScene(scene);
+		this.initModality(Modality.APPLICATION_MODAL);// 设置模态
+		this.setTitle("Massnahmeauswahl");
+		this.centerOnScreen();
+		this.setResizable(false);
+	}
+
+	// 用于将observablelist量massZuFehler1至5转化为CheckBox，并增加其他内容组成VBox
+	public TreeView<String> observablelistToTree(int n, String fehlerart, ObservableList<String> massZuFehler) {
+
+		String s = massZuFehler.toString();
+		s = s.replace("[", " ");// 把ObservableList转换为字符串时系统自动添加的[符号替换为空格
+		s = s.replace("]", " ");// 把ObservableList转换为字符串时系统自动添加的]符号替换为空格
+		/*
+		 * ///////////////////////////////////////////////////////////// VBox
+		 * checkboxVBox = new VBox(2);
+		 * 
+		 * Label labelFehler = new Label();//添加Fehler标签 labelFehler.setText(
+		 * "zur Fehler" + n + "(" + fehlerart + "):"); labelFehler.setFont(new
+		 * Font(18)); checkboxVBox.getChildren().add(labelFehler);
+		 */////////////////////////////////////////////////////////////
+		// String sMssVorschlag = "zur Fehler" + n + "(" + fehlerart + "):";
+
+		// System.out.println(s);
+		String[] arrayU = s.split("Xiong,");
+		arrayU[arrayU.length - 1] = arrayU[arrayU.length - 1].replace("Xiong", "");
+
+		String[][] F;
+		F = new String[arrayU.length][];// 确定二维数组F的第1维长度
+
+		for (int j = 0; j < arrayU.length; j++) {
+			String stringU = arrayU[j];
+			// System.out.println(stringU);
+			String[] arrayM = stringU.split("LessIsMore,");
+			arrayM[arrayM.length - 1] = arrayM[arrayM.length - 1].replace("LessIsMore", "");
+			F[j] = new String[arrayM.length];// 确定二维数组F的第2维长度
+
+			for (int i = 0; i < arrayM.length; i++) {
+				F[j][i] = arrayM[i];
+			} // 二维数组赋值
+		}
+		// System.out.println(F.length);
+
+		TreeView<String> tree;
+		CheckBoxTreeItem<String> rootF = new CheckBoxTreeItem<>("zur Fehler" + n + "(" + fehlerart + "):");// 树根
+		// Label labelFehler = new Label();//添加Fehler标签
+		// labelFehler.setText("zur Fehler" + n + "(" + fehlerart + "):");
+		// labelFehler.setFont(new Font(18));
+		// rootF.setGraphic(labelFehler);//树根显示Fehler名
+		rootF.setExpanded(true);
+
+		int h = 1;//计算tree的行数，从1开始是为root占位
+		for (int j = 0; j < F.length; j++) {
+			CheckBoxTreeItem<String> treeU;
+			treeU = makeBranch(F[j][0], rootF);// 将二维数组中每行第一列的元素(即zur Ursache……的)生成为一级树杈
+
+			for (int i = 1; i < F[j].length; i++) {
+				if (F[j][i].length() > 4) {// 若值不是空格(空格项的长度必然小于4，一般是2或者3)
+					h++;
+					makeBranch(F[j][i], treeU);// 将二维数组中每行第一列以后的元素生成为二级树杈
+				}
+			}
+		}
+
+		tree = new TreeView<>(rootF);
+		tree.setCellFactory(CheckBoxTreeCell.<String> forTreeView());
+		// tree.setShowRoot(false);//不显示树根
+		tree.setBackground(null);
+
+		tree.setMinWidth(660);
+		tree.setMaxHeight(h * 35);// 人工自适应大小，h为行数，乘以35是因为每行大约高35
+		tree.setMinHeight(h * 35);
+
+		switch (n) {
+		case (1):
+			setArrayF1(F);
+			break;
+		case (2):
+			setArrayF2(F);
+			break;
+		case (3):
+			setArrayF3(F);
+			break;
+		case (4):
+			setArrayF4(F);
+			break;
+		case (5):
+			setArrayF5(F);
+			break;
+		}
+
+		return tree;
+	}
+
+	public void setArrayF1(String F[][]) {
+		F1 = new String[F.length][];// 确定二维数组F的第1维长度
+		for (int j = 0; j < F.length; j++) {
+			F1[j] = new String[F[j].length];// 确定二维数组F的第2维长度
+			for (int i = 0; i < F[j].length; i++) {
+				F1[j][i] = F[j][i];
+			}
+		}
+	}
+
+	public void setArrayF2(String F[][]) {
+		F2 = new String[F.length][];// 确定二维数组F的第1维长度
+		for (int j = 0; j < F.length; j++) {
+			F2[j] = new String[F[j].length];// 确定二维数组F的第2维长度
+			for (int i = 0; i < F[j].length; i++) {
+				F2[j][i] = F[j][i];
+			}
+		}
+	}
+
+	public void setArrayF3(String F[][]) {
+		F3 = new String[F.length][];// 确定二维数组F的第1维长度
+		for (int j = 0; j < F.length; j++) {
+			F3[j] = new String[F[j].length];// 确定二维数组F的第2维长度
+			for (int i = 0; i < F[j].length; i++) {
+				F3[j][i] = F[j][i];
+			}
+		}
+	}
+
+	public void setArrayF4(String F[][]) {
+		F4 = new String[F.length][];// 确定二维数组F的第1维长度
+		for (int j = 0; j < F.length; j++) {
+			F4[j] = new String[F[j].length];// 确定二维数组F的第2维长度
+			for (int i = 0; i < F[j].length; i++) {
+				F4[j][i] = F[j][i];
+			}
+		}
+	}
+
+	public void setArrayF5(String F[][]) {
+		F5 = new String[F.length][];// 确定二维数组F的第1维长度
+		for (int j = 0; j < F.length; j++) {
+			F5[j] = new String[F[j].length];// 确定二维数组F的第2维长度
+			for (int i = 0; i < F[j].length; i++) {
+				F5[j][i] = F[j][i];
+			}
+		}
+	}
+
+	public CheckBoxTreeItem<String> makeBranch(String title, CheckBoxTreeItem<String> parent) {// 添加树杈
+		CheckBoxTreeItem<String> item = new CheckBoxTreeItem<String>(title);
+		item.setExpanded(true);
+		parent.getChildren().add(item);
+		return item;
+	}
+	/*
+	 * public void printlnArray(String Fn[][]){
+	 * System.out.println("+++++++++++++++++++++"); if(Fn != null){ for(int j=0;
+	 * j<Fn.length; j++){ for(int i=0; i<Fn[j].length; i++){
+	 * System.out.println(Fn[j][i]); } } }
+	 * System.out.println("====================="); }
+	 */
+
+	// 用于将所有需要在最后的VBox呈现的内容都装进去
+	public VBox allInVBox(TreeView<String> tree) {
+		VBox checkboxVBox = new VBox(0);
+
+		checkboxVBox.getChildren().add(tree);// 加载之前的树
+
+		Label labelKommentar = new Label();// 添加Kommentar标签
+		labelKommentar.setText("Kommentar");
+		labelKommentar.setFont(new Font(15));
+		checkboxVBox.getChildren().add(labelKommentar);
+
+		TextArea ta = new TextArea();// 添加Kommentar文本框
+		ta.setMinHeight(80);// 设定文本框的最小高度
+		// ta.setPrefRowCount(10);
+		ta.setWrapText(true);// 这个命令可以去除文本框横向的拖动条
+
+		checkboxVBox.getChildren().add(ta);
+
+		Label labelBlank1 = new Label();// 添加一个空白标签用于空一行(高度15)
+		labelBlank1.setMinHeight(15);
+		Separator separline = new Separator();// 添加一条分隔线
+		separline.setStyle("-fx-background-color: Black;");
+		Label labelBlank2 = new Label();// 添加一个空白标签用于空一行(高度20)
+		labelBlank2.setMinHeight(20);
+		checkboxVBox.getChildren().addAll(labelBlank1, separline, labelBlank2);
+
+		return checkboxVBox;
+	}
+
+	private void getSelectedCB(TreeItem<String> root) {
+		// System.out.println("已进入getSelectedCB方法");
+		for (TreeItem<String> treeitem : root.getChildren()) {
+			if ((treeitem.getChildren()).isEmpty()) {// !!!!!!!!!!!!!!!!!!!!!!矛盾核心!!!!!!!!!!!!!!!!!!!!!!!
+				if (((CheckBoxTreeItem<String>) treeitem).isSelected()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+				}
+			} else {
+				if (((CheckBoxTreeItem<String>) treeitem).isSelected()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+				} else if (((CheckBoxTreeItem<String>) treeitem).isIndeterminate()) {
+					System.out.println(treeitem.getValue());
+					massVorschlag.add(treeitem.getValue() + "Yifei");
+				}
+				getSelectedCB(treeitem);
+			}
+		}
+	}
+
+	private void getInfoToString(TreeView<String> tree) {
+		System.out.println(tree.getRoot().getValue());
+		massVorschlag.add(tree.getRoot().getValue() + "Yifei");
+		getSelectedCB(tree.getRoot());
+	}
+}

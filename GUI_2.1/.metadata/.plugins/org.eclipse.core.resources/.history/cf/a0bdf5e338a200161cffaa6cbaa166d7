@@ -1,0 +1,317 @@
+package javagui.view;
+
+import java.io.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
+import javafx.stage.DirectoryChooser;
+
+import com.mathworks.toolbox.javabuilder.*;//connection from matlab to java
+import Klss2.BKlss2;//bring Klassifikation-Function of Matlab into java
+import javagui.MainApp;
+import javagui.controller.CustomOutputStream;
+
+public class InterfaceController {
+	@FXML
+	private Button btnFolderOpen;
+	
+	@FXML
+	private Button btnKlssifi;
+	
+	@FXML
+	final ToggleGroup tg = new ToggleGroup();
+	
+	@FXML
+	private ToggleButton btnFace1;
+	
+	@FXML
+	private ToggleButton btnFace2;
+	
+	@FXML
+	private ToggleButton btnFace3;
+	
+	@FXML
+	private ToggleButton btnFace4;
+	
+	@FXML
+	private ToggleButton btnFace5;
+	
+	@FXML
+	private Button btnNein;
+	
+	@FXML
+	private Label txtFolderPath;
+	
+	@FXML
+	private Tooltip tooltipFolderPath;
+	
+	@FXML
+	private Label chargenNum;
+	
+	@FXML
+	private Label bauteilNum;
+	
+	@FXML
+	private Label scheibNum;
+	
+	@FXML
+	private Label scheibTyp;
+	
+	@FXML
+	private Label scheibDrm;
+	
+	@FXML
+	private Label tool;
+	
+	@FXML
+	private Label paste;
+	
+	@FXML
+	private Label przGswO;
+	
+	@FXML
+	private Label schGsw;
+	
+	@FXML
+	private Label fu1;
+	
+	@FXML
+	private Label przGswT;
+	
+	@FXML
+	private Label zuFl1;
+	
+	@FXML
+	private Label zuFl2;
+	
+	@FXML
+	private Label zuFl3;
+	
+	@FXML
+	private Label zuFl4;
+	
+	@FXML
+	private Label zuFl5;
+	
+	@FXML
+	private TextField fehler1;
+	
+	@FXML
+	private LineChart<Number, Number> lineChartTp;
+	
+	@FXML
+	private LineChart<Number, Number> lineChartFq;
+	
+	@FXML
+	private LineChart<Number, Number> lineChartPw;
+	
+	static String folederPath = null;//folederPath can be used everywhere in this class
+	
+	@FXML
+	public void openFolderAction(ActionEvent event){
+		lineChartTp.getData().clear();
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();//before open a new Folder clear the linechart
+		
+		DirectoryChooser folderOpen = new DirectoryChooser();
+		//set initial Folder:
+		folderOpen.setInitialDirectory(new File("C:\\Users\\Administrator\\Desktop\\Beispiel"));
+		File selectedDirectory = folderOpen.showDialog(null);
+//		String folederPath = null;
+		if(selectedDirectory != null){
+			folederPath = selectedDirectory.getAbsolutePath();//get path of the selected folder
+			txtFolderPath.setText(folederPath);
+		}
+		else{System.out.println("Kein Ordner!");}
+		
+		tooltipFolderPath.setText(folederPath);//[tool-tip] get path of selected folder
+		
+	//¡¾read Einstellungen in Labels¡¿:		
+		String filePath_log_part = "\\log.txt"; 		
+		String filePath_log_full = folederPath + filePath_log_part;
+		//get path of log.txt(Einstellungen) in the selected folder
+		
+		//¡¾print all the Information from log.txt line by line¡¿:
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath_log_full))) {
+			String line;
+			int i=1;
+			while ((line = br.readLine()) != null) {
+			//	System.out.println(line);
+				if(i==1){chargenNum.setText(line);}
+				if(i==2){bauteilNum.setText(line);}
+				if(i==3){scheibNum.setText(line);}
+				if(i==4){scheibTyp.setText(line);}
+				if(i==5){scheibDrm.setText(line);}
+				if(i==6){tool.setText(line);}
+				if(i==7){paste.setText(line);}
+				if(i==8){przGswO.setText(line);}
+				if(i==9){schGsw.setText(line);}
+				if(i==10){fu1.setText(line);}
+				if(i==11){przGswT.setText(line);}
+				if(i==12){zuFl1.setText(line);}
+				if(i==13){zuFl2.setText(line);}
+				if(i==14){zuFl3.setText(line);}
+				if(i==15){zuFl4.setText(line);}
+				if(i==16){zuFl5.setText(line);}
+				else{}
+				i++;
+			}//end while
+			i=0;
+		} catch (IOException e) {e.printStackTrace();}
+		
+		readinTemp();//read the value of Temp. in program 
+		
+		btnFace1.setDisable(false);
+		btnFace2.setDisable(false);
+		btnFace3.setDisable(false);
+		btnFace4.setDisable(false);
+		btnFace5.setDisable(false);
+		
+	}//end Method of OpenFolderButton
+	
+	public void switchFaceAction1(ActionEvent event){
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();
+		String filePath_freq_part2 = "_f1.txt";
+		readinFrequenz(filePath_freq_part2);
+		String filePath_pow_part2 = "_f1.txt";
+		readinPower(filePath_pow_part2);
+	}
+	public void switchFaceAction2(ActionEvent event){
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();
+		String filePath_freq_part2 = "_f2.txt"; 
+		readinFrequenz(filePath_freq_part2);
+		String filePath_pow_part2 = "_f2.txt";
+		readinPower(filePath_pow_part2);
+	}
+	public void switchFaceAction3(ActionEvent event){
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();
+		String filePath_freq_part2 = "_f3.txt"; 
+		readinFrequenz(filePath_freq_part2);
+		String filePath_pow_part2 = "_f3.txt";
+		readinPower(filePath_pow_part2);
+	}
+	public void switchFaceAction4(ActionEvent event){
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();
+		String filePath_freq_part2 = "_f4.txt"; 
+		readinFrequenz(filePath_freq_part2);
+		String filePath_pow_part2 = "_f4.txt";
+		readinPower(filePath_pow_part2);
+	}
+	public void switchFaceAction5(ActionEvent event){
+		lineChartFq.getData().clear();
+		lineChartPw.getData().clear();
+		String filePath_freq_part2 = "_f5.txt"; 
+		readinFrequenz(filePath_freq_part2);
+		String filePath_pow_part2 = "_f5.txt";
+		readinPower(filePath_pow_part2);
+	}
+	
+	@FXML
+	public void klassifikationAction(ActionEvent event) throws MWException{
+		fehler1.setEditable(false);
+		fehler1.clear();
+		
+		PrintStream printStream = new PrintStream(new CustomOutputStream(fehler1));
+		System.setOut(printStream);
+		
+		BKlss2 f = new BKlss2();
+		Object fr[] = null;
+		MWNumericArray a = null;
+		int m = 3;
+		a = new MWNumericArray(Double.valueOf(m), MWClassID.DOUBLE);
+		fr = f.Klss2(1,a);//1 means one value will return, a is Input
+		System.out.println(fr[0]);//0 means the first value		
+	}
+	
+	private void readinTemp() {
+		String filePath_temp_part = "\\temp.txt"; 
+		String filePath_temp_full = folederPath + filePath_temp_part;
+		//get path of temp.txt(Temperature) in the selected folder
+		
+		int tp=0;
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath_temp_full))) {
+			String line;//every line is a value of Temperature
+			
+			lineChartTp.setTitle("Temperatur");
+			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			
+			int i=1;
+			while ((line = br.readLine()) != null) {
+			//	System.out.println(line);
+				tp = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,tp));
+				i++;
+			}//end while
+			lineChartTp.getData().add(series);
+		} catch (IOException e) {e.printStackTrace();}
+	}
+
+	private void readinFrequenz(String filePath_freq_part2) {
+		Long startTime = System.currentTimeMillis();
+		
+		String filePath_freq_part1 = "\\freq"; 
+		String filePath_freq_full = folederPath + filePath_freq_part1 + filePath_freq_part2;
+		//get path of freq.txt(Frequenz) in the selected folder
+
+		int fq=0;
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath_freq_full))) {
+			String line;//every line is a value of Frequenz
+			
+			lineChartFq.setTitle("Frequenz");
+			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+			
+			int i=1;
+			while ((line = br.readLine()) != null) {
+			//	System.out.println(line);
+				fq = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,fq));
+				i++;
+			}//end while
+			lineChartFq.getData().add(series);
+		} catch (IOException e) {e.printStackTrace();}
+		
+		Long endTime = System.currentTimeMillis();
+		System.out.println("Loadtime: "+(endTime - startTime)+"ms"); 
+	}
+	
+
+	private void readinPower(String filePath_pow_part2) {
+		String filePath_pow_part1 = "\\pow"; 
+		String filePath_pow_full = folederPath + filePath_pow_part1 + filePath_pow_part2;
+		//get path of pow.txt(Spannung/Power) in the selected folder
+
+		int pw=0;
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath_pow_full))) {
+			String line;//every line is a value of Spannung/Power
+			
+			lineChartPw.setTitle("Spannung");
+			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			
+			int i=1;
+			while ((line = br.readLine()) != null) {
+			//	System.out.println(line);
+				pw = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,pw));
+				i++;
+			}//end while
+			lineChartPw.getData().add(series);
+		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	@FXML
+	public void fehlerRedefine(ActionEvent event) throws MWException{
+		MainApp.showDialogFeler();
+	}
+	
+}

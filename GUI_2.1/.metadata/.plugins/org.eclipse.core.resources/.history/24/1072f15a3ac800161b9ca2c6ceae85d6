@@ -1,0 +1,57 @@
+package javagui.view;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.stage.Stage;
+
+public class DialogFehlerController {
+	@FXML
+	private CheckBox fehlerCB_Kratzer;
+	
+	@FXML
+	private CheckBox fehlerCB_Loecher;
+	
+	@FXML
+	private Button btnOK;
+	
+	@FXML
+	private Button btnAbbrechen;
+
+	private Stage dialogStage;
+	
+	public void fehlerKorrigieren(String fehlerart_in_Dialog) throws ClassNotFoundException {
+		System.out.println(fehlerart_in_Dialog + " ¡ú Dialog");
+		
+		if (fehlerart_in_Dialog == "Kratzer") {fehlerCB_Kratzer.setSelected(true);}
+		else if (fehlerart_in_Dialog == "Loecher") {fehlerCB_Loecher.setSelected(true);}
+
+		System.out.println(fehlerart_in_Dialog);
+		
+//		return fehlerart_in_Dialog;
+	}
+	
+	@FXML
+    private void ActionOk(ActionEvent event) {
+		String[] Fehler = new String[2];
+		int i = 0;
+		if(fehlerCB_Kratzer.selectedProperty() != null){
+			Fehler[i] = "Kratzer";
+			i++;
+		}
+		if(fehlerCB_Loecher.selectedProperty() != null){
+			Fehler[i] = "Loecher";
+			i++;
+		}
+		
+		javagui.view.InterfaceController.fehlerart1 = Fehler[0];
+		javagui.view.InterfaceController.fehlerart2 = Fehler[1];
+		
+		dialogStage.close();
+	}
+	
+	public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+}
