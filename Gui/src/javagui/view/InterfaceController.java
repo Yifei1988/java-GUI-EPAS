@@ -2,7 +2,6 @@ package javagui.view;
 
 import java.io.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -224,117 +223,74 @@ public class InterfaceController {
 		String filePath_temp_full = folederPath + filePath_temp_part;
 		//get path of temp.txt(Temperature) in the selected folder
 		
-		System.out.println(filePath_temp_full);
-		
-		int tp1=0,tp2=0,tp3=0,tp4=0,tp5=0;
+		int tp=0;
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath_temp_full))) {
 			String line;//every line is a value of Temperature
+			
+			lineChartTp.setTitle("Temperatur");
+			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			
 			int i=1;
 			while ((line = br.readLine()) != null) {
 			//	System.out.println(line);
-				if(i==1){tp1 = Integer.parseInt((String)line);System.out.println(tp1);}
-				if(i==2){tp2 = Integer.parseInt((String)line);System.out.println(tp2);}
-				if(i==3){tp3 = Integer.parseInt((String)line);System.out.println(tp3);}
-				if(i==4){tp4 = Integer.parseInt((String)line);System.out.println(tp4);}
-				if(i==5){tp5 = Integer.parseInt((String)line);System.out.println(tp5);}
-				else{}
+				tp = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,tp));
 				i++;
 			}//end while
-			i=0;
+			lineChartTp.getData().add(series);
 		} catch (IOException e) {e.printStackTrace();}
-		setLineChartTp(tp1,tp2,tp3,tp4,tp5);//after read the Temperature then send them to LineChart
 	}
-	
-	private void setLineChartTp(int tp1,int tp2,int tp3,int tp4,int tp5) {//LineChart of Temperature
-        lineChartTp.setTitle("Temperatur");
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().addAll(
-        		new XYChart.Data<>("1", tp1),
-        		new XYChart.Data<>("2", tp2),
-        		new XYChart.Data<>("3", tp3),
-		        new XYChart.Data<>("4", tp4),
-   		        new XYChart.Data<>("5", tp5) );
 
-        lineChartTp.getData().add(series);
-    }
-	
 	private void readinFrequenz(String filePath_freq_part2) {
+		Long startTime = System.currentTimeMillis();
+		
 		String filePath_freq_part1 = "\\freq"; 
 		String filePath_freq_full = folederPath + filePath_freq_part1 + filePath_freq_part2;
 		//get path of freq.txt(Frequenz) in the selected folder
-		
-		System.out.println(filePath_freq_full);
-		
-		int fq1=0,fq2=0,fq3=0,fq4=0,fq5=0;
+
+		int fq=0;
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath_freq_full))) {
 			String line;//every line is a value of Frequenz
+			
+			lineChartFq.setTitle("Frequenz");
+			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+			
 			int i=1;
 			while ((line = br.readLine()) != null) {
 			//	System.out.println(line);
-				if(i==1){fq1 = Integer.parseInt((String)line);System.out.println(fq1);}
-				if(i==2){fq2 = Integer.parseInt((String)line);System.out.println(fq2);}
-				if(i==3){fq3 = Integer.parseInt((String)line);System.out.println(fq3);}
-				if(i==4){fq4 = Integer.parseInt((String)line);System.out.println(fq4);}
-				if(i==5){fq5 = Integer.parseInt((String)line);System.out.println(fq5);}
-				else{}
+				fq = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,fq));
 				i++;
 			}//end while
-			i=0;
+			lineChartFq.getData().add(series);
 		} catch (IOException e) {e.printStackTrace();}
-		setLineChartFq(fq1,fq2,fq3,fq4,fq5);//after read the Frequenz then send them to LineChart
+		
+		Long endTime = System.currentTimeMillis();
+		System.out.println("程序运行时间： "+(endTime - startTime)+"ns"); 
 	}
 	
-	private void setLineChartFq(int fq1,int fq2,int fq3,int fq4,int fq5) {//LineChart of Frequenz
-        lineChartFq.setTitle("Frequenz");
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().addAll(
-        		new XYChart.Data<>("1", fq1),
-        		new XYChart.Data<>("2", fq2),
-        		new XYChart.Data<>("3", fq3),
-		        new XYChart.Data<>("4", fq4),
-   		        new XYChart.Data<>("5", fq5) );
 
-        lineChartFq.getData().add(series);
-    }
-	
 	private void readinPower(String filePath_pow_part2) {
 		String filePath_pow_part1 = "\\pow"; 
 		String filePath_pow_full = folederPath + filePath_pow_part1 + filePath_pow_part2;
 		//get path of pow.txt(Spannung/Power) in the selected folder
-		
-		System.out.println(filePath_pow_full);
-		
-		int pw1=0,pw2=0,pw3=0,pw4=0,pw5=0;
+
+		int pw=0;
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath_pow_full))) {
 			String line;//every line is a value of Spannung/Power
+			
+			lineChartPw.setTitle("Spannung");
+			XYChart.Series<Number, Number> series = new XYChart.Series<>();
+			
 			int i=1;
 			while ((line = br.readLine()) != null) {
 			//	System.out.println(line);
-				if(i==1){pw1 = Integer.parseInt((String)line);System.out.println(pw1);}
-				if(i==2){pw2 = Integer.parseInt((String)line);System.out.println(pw2);}
-				if(i==3){pw3 = Integer.parseInt((String)line);System.out.println(pw3);}
-				if(i==4){pw4 = Integer.parseInt((String)line);System.out.println(pw4);}
-				if(i==5){pw5 = Integer.parseInt((String)line);System.out.println(pw5);}
-				else{}
+				pw = Integer.parseInt((String)line);
+				series.getData().add(new XYChart.Data<>(i,pw));
 				i++;
 			}//end while
-			i=0;
+			lineChartPw.getData().add(series);
 		} catch (IOException e) {e.printStackTrace();}
-		setLineChartPw(pw1,pw2,pw3,pw4,pw5);//after read the Spannung/Power then send them to LineChart
 	}
 	
-	private void setLineChartPw(int pw1,int pw2,int pw3,int pw4,int pw5) {//LineChart of Spannung/Power
-        lineChartPw.setTitle("Spannung");
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.getData().addAll(
-        		new XYChart.Data<>("1", pw1),
-        		new XYChart.Data<>("2", pw2),
-        		new XYChart.Data<>("3", pw3),
-		        new XYChart.Data<>("4", pw4),
-   		        new XYChart.Data<>("5", pw5) );
-
-        lineChartPw.getData().add(series);
-    }
-
-
 }
